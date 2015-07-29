@@ -10,4 +10,9 @@ public class ExampleTest {
     public void test() {
         assertEquals(1, 1);
     }
+
+    @Test
+    public void testWelcomeMessage() {
+        assertEquals("Welcome to Biblioteca", BibliotecaApp.WELCOME_MESSAGE);
+    }
 }
