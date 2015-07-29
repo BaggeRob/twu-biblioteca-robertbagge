@@ -18,10 +18,11 @@ public class Library {
     }
 
     public String listAllBooks() {
-        String allBooks = "";
+        String format = "|%1$-25s|%2$-25s|%3$-25s|\n";
+        String allBooks = String.format(format, "Book Title", "Author", "Year Published");
 
         for(Book book: database.getAllBooks()){
-            allBooks += book.getName() + System.lineSeparator();
+            allBooks += String.format(format, book.getName(), book.getAuthor(), book.getYearPublished());
         }
         return allBooks;
     }
