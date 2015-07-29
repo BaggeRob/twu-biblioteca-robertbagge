@@ -15,7 +15,7 @@ public class MockDatabaseTest {
 
     @Test
     public void testMockDatabaseSize(){
-        assertEquals(20, new MockDatabase().books.size());
+        assertEquals(20, new MockDatabase().getAllBooks().size());
     }
 
     @Test
@@ -23,8 +23,8 @@ public class MockDatabaseTest {
         MockDatabase mb = new MockDatabase();
         int availableSize = 0;
         int unavailableSize = 0;
-        for(int i = 0; i < mb.books.size(); i++){
-            if(mb.books.get(i).getAvailability() == true){
+        for(int i = 0; i < mb.getAllBooks().size(); i++){
+            if(mb.getAllBooks().get(i).getAvailability() == true){
                 availableSize++;
                 unavailableSize++;
             }

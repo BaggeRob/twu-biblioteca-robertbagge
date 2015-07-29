@@ -7,10 +7,14 @@ import java.util.ArrayList;
  */
 public class MockDatabase {
 
-    public ArrayList<Book> books;
+    private ArrayList<Book> books;
 
     public MockDatabase(){
         books = createBooks();
+    }
+
+    public ArrayList<Book> getAllBooks(){
+        return books;
     }
 
     private ArrayList<Book> createBooks(){
