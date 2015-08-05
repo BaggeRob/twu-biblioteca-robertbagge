@@ -4,7 +4,8 @@ package com.twu.biblioteca;
  * Created by Robert on 29/07/15.
  */
 public class Book {
-    public final static String BOOK_FORMAT = "|%1$-40s|%2$-25s|%3$-25s|\n";
+    public final static String BOOK_FORMAT = "|%1$-10d|%2$-40s|%3$-25s|%4$-25s|\n";
+    public final static String BOOK_FORMAT_FIELDS = "|%1$-10s|%2$-40s|%3$-25s|%4$-25s|\n";
     private String author;
     private String name;
     private String yearPublished;
@@ -59,6 +60,15 @@ public class Book {
 
 
     public String toString(){
-        return String.format(Book.BOOK_FORMAT, this.getName(), this.getAuthor(), this.getYearPublished());
+        return String.format(Book.BOOK_FORMAT, this.getBookId(), this.getName(), this.getAuthor(), this.getYearPublished());
+    }
+
+    public boolean equals(Object obj){
+        if(this.getBookId() == ((Book) obj).getBookId()){
+            return true;
+        }else{
+            return false;
+        }
+
     }
 }

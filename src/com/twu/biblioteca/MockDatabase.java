@@ -62,4 +62,13 @@ public class MockDatabase {
 
         return availableBooks;
     }
+
+    public Book getBookById(int bookId) {
+        for(Book book: books){
+            if(book.getBookId() == bookId){
+                return book;
+            }
+        }
+        return null;
+    }
 }

@@ -18,6 +18,12 @@ public class MockDatabaseTest {
         assertEquals(20, new MockDatabase().getAllBooks().size());
     }
 
+    @Test
+    public void testGetBookById(){
+        int id = 15;
+        assertEquals(id, new MockDatabase().getBookById(id).getBookId());
+    }
+
 //    @Test
 //    public void testMockDatabaseAvailableBooksSize(){
 //        MockDatabase mb = new MockDatabase();

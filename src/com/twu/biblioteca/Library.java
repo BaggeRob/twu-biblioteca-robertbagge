@@ -17,13 +17,24 @@ public class Library {
         return database.getAllBooks().size();
     }
 
-    public String listAllBooks() {
-        //String format = "|%1$-25s|%2$-25s|%3$-25s|\n";
-        String allBooks = String.format(Book.BOOK_FORMAT, "Book Title", "Author", "Year Published");
+    public String listBooks() {
 
-        for(Book book: database.getAllBooks()){
-            allBooks += book.toString();
+
+
+        String availableBooks = String.format(Book.BOOK_FORMAT_FIELDS, "Book Id", "Book Title", "Author", "Year Published");
+
+        for(Book book: database.getBooksOnAvailability(true)){
+            availableBooks += book.toString();
         }
-        return allBooks;
+        return availableBooks;
+    }
+
+    public boolean loanBook(int bookId) {
+        if(database.getBooksOnAvailability(true).contains(new Book("", "", "", bookId))){
+            Book book = database.getBookById(bookId);
+            book.setAvailability(false);
+            return true;
+        }
+        return false;
     }
 }

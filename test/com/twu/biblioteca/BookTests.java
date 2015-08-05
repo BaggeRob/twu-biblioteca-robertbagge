@@ -50,4 +50,11 @@ public class BookTests {
         assertEquals(12, new Book("How to kill a mockingbird", "Harper Lee", "1960", 12).getBookId());
     }
 
+    @Test
+    public void testEquals(){
+        assertEquals(true, new Book("How to kill a mockingbird", "Harper Lee", "1960", 12).equals(new Book("How to kill a mockingbird", "Harper Lee", "1960", 12)));
+        assertEquals(false, new Book("How to kill a mockingbird", "Harper Lee", "1960", 11).equals(new Book("How to kill a mockingbird", "Harper Lee", "1960", 12)));
+
+    }
+
 }
