@@ -2,13 +2,10 @@ package com.twu.biblioteca;
 
 public class BibliotecaApp {
 
-
-    public static final String WELCOME_MESSAGE = "Welcome to Biblioteca";
-
     public static void main(String[] args) {
         Library library = new Library();
-        System.out.println(BibliotecaApp.WELCOME_MESSAGE);
+        TerminalIOWrapper terminalIOWrapper = new TerminalIOWrapper(library);
 
-        System.out.println(library.listAllBooks());
+        terminalIOWrapper.run();
     }
 }
