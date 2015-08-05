@@ -4,10 +4,11 @@ package com.twu.biblioteca;
  * Created by Robert on 29/07/15.
  */
 public class Book {
-    public final static String BOOK_FORMAT = "|%1$-25s|%2$-25s|%3$-25s|\n";
+    public final static String BOOK_FORMAT = "|%1$-40s|%2$-25s|%3$-25s|\n";
     private String author;
     private String name;
     private String yearPublished;
+    private int bookId;
     public boolean availability;
 
 
@@ -20,10 +21,15 @@ public class Book {
     }
 
     public Book(String name, String author, String yearPublished){
+        this(name, author, yearPublished, -1);
+    }
+
+    public Book(String name, String author, String yearPublished, int bookId){
         this.name = name;
         this.availability = true;
         this.author = author;
         this.yearPublished = yearPublished;
+        this.bookId = bookId;
     }
 
 
@@ -47,6 +53,10 @@ public class Book {
     public String getYearPublished(){
         return yearPublished;
     }
+
+    public int getBookId(){return bookId;}
+
+
 
     public String toString(){
         return String.format(Book.BOOK_FORMAT, this.getName(), this.getAuthor(), this.getYearPublished());

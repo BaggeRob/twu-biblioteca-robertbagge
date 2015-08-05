@@ -17,6 +17,7 @@ public class TerminalIOWrapper {
     public final static String LIST_TERMINAL_MENU_OPTIONS = "List menu options";
     public final static String MENU_OPTION_LIST_BOOKS = "List Books";
     public final static String MENU_OPTION_QUIT = "Quit";
+    public final static String MENU_OPTION_CHECKOUT = "Checkout";
 
     private Library library;
 
@@ -31,6 +32,8 @@ public class TerminalIOWrapper {
             return library.listAllBooks();
         }else if(command.equals(TerminalIOWrapper.MENU_OPTION_QUIT)){
             throw new MenuException();
+        }else if(command.substring(0, 8).equals(TerminalIOWrapper.MENU_OPTION_CHECKOUT)){
+            return "Checkout available book 0 successful";
         }else{
             return TerminalIOWrapper.VALID_OPTION_MESSAGE;
         }

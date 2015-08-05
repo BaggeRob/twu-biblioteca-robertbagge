@@ -45,4 +45,9 @@ public class BookTests {
         assertEquals("1960", new Book("How to kill a mockingbird", "Harper Lee", "1960").getYearPublished());
     }
 
+    @Test
+    public void testBookId(){
+        assertEquals(12, new Book("How to kill a mockingbird", "Harper Lee", "1960", 12).getBookId());
+    }
+
 }

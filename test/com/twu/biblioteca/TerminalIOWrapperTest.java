@@ -54,6 +54,16 @@ public class TerminalIOWrapperTest {
         }
     }
 
+    @Test
+    public void checkoutBookValidBook(){
+        try {
+            assertEquals("Checkout available book 0 successful", terminalIOWrapper.runCommand("Checkout available book 0"));
+        } catch (TerminalIOWrapper.MenuException e) {
+            e.printStackTrace();
+        }
+
+    }
+
 
 
 
