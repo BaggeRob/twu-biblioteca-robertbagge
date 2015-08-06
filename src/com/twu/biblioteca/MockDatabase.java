@@ -1,5 +1,6 @@
 package com.twu.biblioteca;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -9,26 +10,31 @@ public class MockDatabase {
 
     private ArrayList<Media> books;
     private ArrayList<Media> movies;
+    private ArrayList<User> users;
 
     public MockDatabase(){
         books = createBooks();
         movies = createMovies();
+        users = createUsers();
     }
 
     public ArrayList<Media> getAllBooks(){
         return books;
     }
 
+    private ArrayList<User> createUsers() {
+        ArrayList<User> tempUsers = new ArrayList<User>();
+        tempUsers.add(new User("123-4567", "pass123-4567"));
+        tempUsers.add(new User("234-5678", "pass234-5678"));
+        tempUsers.add(new User("345-6789", "pass345-6789"));
+        tempUsers.add(new User("456-7890", "pass456-7890"));
+        tempUsers.add(new User("567-8901", "pass567-8901"));
+
+        return tempUsers;
+    }
+
     private ArrayList<Media> createBooks(){
         ArrayList<Media> tempBooks = new ArrayList<Media>();
-
-/*        for(int i = 0; i < 10; i++){
-            Book unavailableBook = new Book("unaivalable book " + i);
-            Book availableBook = new Book("available book " + i);
-            unavailableBook.setAvailability(false);
-            tempBooks.add(unavailableBook);
-            tempBooks.add(availableBook);
-        }*/
 
         tempBooks.add(new Book("In Search of Lost Time", "Marcel Proust", "1955", 1));
         tempBooks.add(new Book("Ulysses", "James Joyce", "1830", 2));
@@ -121,6 +127,15 @@ public class MockDatabase {
         for(Media book: books){
             if(book.getId() == bookId){
                 return book;
+            }
+        }
+        return null;
+    }
+
+    public User findUser(String libraryNumber) {
+        for(User user: users){
+            if(user.equals(new User(libraryNumber, "..."))){
+                return user;
             }
         }
         return null;

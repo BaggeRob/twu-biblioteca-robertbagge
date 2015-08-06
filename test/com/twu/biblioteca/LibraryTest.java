@@ -34,14 +34,11 @@ public class LibraryTest {
     public void testLoanBook(){
         try {
             assertTrue(library.listBooks().contains("Don Quixote"));
-            System.out.println(library.listBooks());
             assertTrue(library.loanMedia("3", Library.MEDIA_TYPE_BOOK));
             assertFalse(library.listBooks().contains("Don Quixote"));
-            System.out.println(library.listBooks());
             assertTrue(library.loanMedia("9", Library.MEDIA_TYPE_BOOK));
             assertFalse(library.listBooks().contains("The Divine Comedy"));
             assertFalse(library.loanMedia("9", Library.MEDIA_TYPE_BOOK));
-            System.out.println(library.listBooks());
 
             assertFalse(library.loanMedia("10000", Library.MEDIA_TYPE_BOOK));
         } catch (Library.InvalidMediaIdException e) {
@@ -71,11 +68,15 @@ public class LibraryTest {
     public void testListAllBooksNotNull(){
         try {
             assertNotNull(library.listBooks());
-            System.out.println(library.listBooks());
         } catch (Library.InvalidMediaTypeException e) {
             fail();
         }
+    }
 
+    @Test
+    public void testUserLogin(){
+        assertTrue(library.userLogin("123-4567", "pass123-4567"));
+        assertFalse(library.userLogin("123-4567", "pass123-456712421"));
     }
 
 }

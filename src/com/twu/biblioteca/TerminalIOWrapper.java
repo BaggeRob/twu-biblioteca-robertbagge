@@ -17,6 +17,8 @@ public class TerminalIOWrapper {
     public static final String UNSUCCESFUL_CHECKOUT_MESSAGE = "That book is not available.";
     public static final String SUCCESSFUL_RETURN_MESSAGE = "Thank you for returning the book.";
     public static final String UNSUCCESFUL_RETURN_MESSAGE = "That is not a valid book to return.";
+    public static final String SUCCESSFUL_LOGIN_MESSAGE = "You are now logged in.";
+    public static final String UNSUCCESFUL_LOGIN_MESSAGE = "Wrong user credentials.";
 
     public final static String LIST_TERMINAL_MENU_OPTIONS = "List menu options";
     public final static String MENU_OPTION_LIST_BOOKS = "List Books";
@@ -24,6 +26,7 @@ public class TerminalIOWrapper {
     public final static String MENU_OPTION_QUIT = "Quit";
     public final static String MENU_OPTION_CHECKOUT = "Checkout";
     public final static String MENU_OPTION_RETURN = "Return";
+    public final static String MENU_OPTION_LOGIN = "Login";
 
 
 
@@ -46,20 +49,53 @@ public class TerminalIOWrapper {
             return returnMedia(command);
         }else if(command.equals(TerminalIOWrapper.MENU_OPTION_LIST_MOVIES)){
             return listMovies();
+        }else if(command.split(" ")[0].equals(TerminalIOWrapper.MENU_OPTION_LOGIN)){
+            return userLogin(command);
         }else{
             throw new InvalidMenuOptionException();
         }
     }
 
+    private String userLogin(String command) {
+        String[] commandArgs = command.split(" ");
+        String libraryNumber = commandArgs[1];
+        String password = commandArgs[2];
+        if(library.userLogin(libraryNumber, password)){
+            return TerminalIOWrapper.SUCCESSFUL_LOGIN_MESSAGE;
+        }else{
+            return TerminalIOWrapper.UNSUCCESFUL_LOGIN_MESSAGE;
+        }
+
+    }
+
 
     public String listMenuOptions(){
         String menu = "Choose one of the following menu options: \n";
-        menu += TerminalIOWrapper.MENU_OPTION_LIST_BOOKS + " - '" + TerminalIOWrapper.MENU_OPTION_LIST_BOOKS + "'\n";
-        menu += TerminalIOWrapper.MENU_OPTION_LIST_MOVIES + " - '" + TerminalIOWrapper.MENU_OPTION_LIST_MOVIES + "'\n";
-        menu += TerminalIOWrapper.MENU_OPTION_CHECKOUT + " - ex: '" + TerminalIOWrapper.MENU_OPTION_CHECKOUT + " Movie 5' (<action> <media type> <media id>)\n";
-        menu += TerminalIOWrapper.MENU_OPTION_RETURN + " - ex: '" + TerminalIOWrapper.MENU_OPTION_RETURN + " Book 11' (<action> <media type> <media id>)\n";
-        menu += TerminalIOWrapper.MENU_OPTION_QUIT + " - 'Quit'";
+        if(!validateUserSession()){
+            menu += menuItemsForNotLoggedInUsers();
+        }else{
+            menu += menuItemsForLoggedInUsers();
+        }
+        menu += menuItemsForAllUsers();
         return menu;
+    }
+
+    private String menuItemsForLoggedInUsers(){
+        return "";
+    }
+
+    private String menuItemsForNotLoggedInUsers(){
+        return TerminalIOWrapper.MENU_OPTION_LOGIN + " - ex: '" + TerminalIOWrapper.MENU_OPTION_LOGIN + " 123-4567 pass123-4567'\n";
+    }
+
+    private String menuItemsForAllUsers(){
+        String menuItems = "";
+        menuItems += TerminalIOWrapper.MENU_OPTION_LIST_BOOKS + " - '" + TerminalIOWrapper.MENU_OPTION_LIST_BOOKS + "'\n";
+        menuItems += TerminalIOWrapper.MENU_OPTION_LIST_MOVIES + " - '" + TerminalIOWrapper.MENU_OPTION_LIST_MOVIES + "'\n";
+        menuItems += TerminalIOWrapper.MENU_OPTION_CHECKOUT + " - ex: '" + TerminalIOWrapper.MENU_OPTION_CHECKOUT + " Movie 5' (<action> <media type> <media id>)\n";
+        menuItems += TerminalIOWrapper.MENU_OPTION_RETURN + " - ex: '" + TerminalIOWrapper.MENU_OPTION_RETURN + " Book 11' (<action> <media type> <media id>)\n";
+        menuItems += TerminalIOWrapper.MENU_OPTION_QUIT + " - 'Quit'";
+        return menuItems;
     }
 
     private String listMovies() throws InvalidMenuOptionException {
@@ -80,6 +116,9 @@ public class TerminalIOWrapper {
 
     private String checkoutMedia(String command) throws InvalidMenuOptionException{
         try {
+            if(!validateUserSession()){
+                throw new InvalidMenuOptionException();
+            }
             String[] commandArgs = command.split(" ");
             String media_type = commandArgs[1];
             String mediaId = commandArgs[2];
@@ -93,6 +132,10 @@ public class TerminalIOWrapper {
         } catch (Library.InvalidMediaTypeException e) {
             throw new InvalidMenuOptionException();
         }
+    }
+
+    private boolean validateUserSession() {
+        return library.onGoingUserSession();
     }
 
     private String returnMedia(String command) throws InvalidMenuOptionException {
