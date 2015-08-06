@@ -59,7 +59,7 @@ public abstract class Media {
     }
 
     public boolean equals(Object obj){
-        if(this.getId() == ((Book) obj).getId() && this.getClass().equals(obj.getClass())){
+        if(this.getId() == ((Media) obj).getId() && this.getClass().equals(obj.getClass())){
             return true;
         }else{
             return false;

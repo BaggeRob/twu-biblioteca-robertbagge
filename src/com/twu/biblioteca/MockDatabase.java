@@ -7,20 +7,20 @@ import java.util.ArrayList;
  */
 public class MockDatabase {
 
-    private ArrayList<Book> books;
-    private ArrayList<Movie> movies;
+    private ArrayList<Media> books;
+    private ArrayList<Media> movies;
 
     public MockDatabase(){
         books = createBooks();
         movies = createMovies();
     }
 
-    public ArrayList<Book> getAllBooks(){
+    public ArrayList<Media> getAllBooks(){
         return books;
     }
 
-    private ArrayList<Book> createBooks(){
-        ArrayList<Book> tempBooks = new ArrayList<Book>();
+    private ArrayList<Media> createBooks(){
+        ArrayList<Media> tempBooks = new ArrayList<Media>();
 
 /*        for(int i = 0; i < 10; i++){
             Book unavailableBook = new Book("unaivalable book " + i);
@@ -54,8 +54,8 @@ public class MockDatabase {
         return tempBooks;
     }
 
-    private ArrayList<Movie> createMovies(){
-        ArrayList<Movie> tempMovies = new ArrayList<Movie>();
+    private ArrayList<Media> createMovies(){
+        ArrayList<Media> tempMovies = new ArrayList<Media>();
 
         tempMovies.add(new Movie("Shawshank Redemption", 1, "1994", "Frank Darabont", "9"));
         tempMovies.add(new Movie("The Godfather", 2, "1972", "Francis Ford Coppola", "9"));
@@ -73,8 +73,8 @@ public class MockDatabase {
 
     }
 
-    public ArrayList<Book> getBooksOnAvailability(boolean requestedAvailability) {
-        ArrayList<Book> availableBooks = new ArrayList<Book>();
+    public ArrayList<Media> getBooksOnAvailability(boolean requestedAvailability) {
+        ArrayList<Media> availableBooks = new ArrayList<Media>();
         for(int i = 0; i < books.size(); i++){
             if(books.get(i).isAvailable() == requestedAvailability){
                 availableBooks.add(books.get(i));
@@ -84,8 +84,8 @@ public class MockDatabase {
         return availableBooks;
     }
 
-    public ArrayList<Movie> getMoviesOnAvailability(boolean requestedAvailability) {
-        ArrayList<Movie> availableMovies = new ArrayList<Movie>();
+    public ArrayList<Media> getMoviesOnAvailability(boolean requestedAvailability) {
+        ArrayList<Media> availableMovies = new ArrayList<Media>();
         for(int i = 0; i < movies.size(); i++){
             if(movies.get(i).isAvailable() == requestedAvailability){
                 availableMovies.add(movies.get(i));
@@ -95,14 +95,34 @@ public class MockDatabase {
         return availableMovies;
     }
 
-    public Book getBookById(int bookId) {
-        for(Book book: books){
+
+    private Media getMediaByIdWithList(int mediaId, ArrayList<Media> mediaList){
+        for(Media media: mediaList){
+            if(media.getId() == mediaId){
+                return media;
+            }
+        }
+        return null;
+    }
+
+    public Media getMediaById(int mediaId, String media_type) {
+        if(media_type.equals(Library.MEDIA_TYPE_MOVIE)){
+            return this.getMediaByIdWithList(mediaId, movies);
+        }else if(media_type.equals(Library.MEDIA_TYPE_BOOK)){
+            return this.getMediaByIdWithList(mediaId, books);
+        }else{
+            return null;
+        }
+    }
+
+
+
+    public Media getBookById(int bookId) {
+        for(Media book: books){
             if(book.getId() == bookId){
                 return book;
             }
         }
         return null;
     }
-
-
 }

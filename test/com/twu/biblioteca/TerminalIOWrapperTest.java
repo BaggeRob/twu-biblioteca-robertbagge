@@ -44,9 +44,11 @@ public class TerminalIOWrapperTest {
         try {
             assertEquals(library.listBooks(), terminalIOWrapper.runCommand(TerminalIOWrapper.MENU_OPTION_LIST_BOOKS));
         } catch (TerminalIOWrapper.UserInducedQuitException e) {
-            e.printStackTrace();
+            fail();
         } catch (TerminalIOWrapper.InvalidMenuOptionException e) {
-            e.printStackTrace();
+            fail();
+        } catch (Library.InvalidMediaTypeException e) {
+            fail();
         }
     }
 
@@ -59,6 +61,8 @@ public class TerminalIOWrapperTest {
             fail();
         } catch (TerminalIOWrapper.InvalidMenuOptionException e) {
             e.printStackTrace();
+            fail();
+        } catch (Library.InvalidMediaTypeException e) {
             fail();
         }
     }
@@ -79,11 +83,27 @@ public class TerminalIOWrapperTest {
     @Test
     public void checkoutBook(){
         try {
-            assertEquals(TerminalIOWrapper.SUCCESSFUL_CHECKOUT_MESSAGE, terminalIOWrapper.runCommand("Checkout 3"));
-            assertEquals(TerminalIOWrapper.UNSUCCESFUL_CHECKOUT_MESSAGE, terminalIOWrapper.runCommand("Checkout 3"));
+            assertEquals(TerminalIOWrapper.SUCCESSFUL_CHECKOUT_MESSAGE, terminalIOWrapper.runCommand("Checkout Book 3"));
+            assertEquals(TerminalIOWrapper.UNSUCCESFUL_CHECKOUT_MESSAGE, terminalIOWrapper.runCommand("Checkout Book 3"));
         } catch (TerminalIOWrapper.UserInducedQuitException e) {
+            fail();
             e.printStackTrace();
         } catch (TerminalIOWrapper.InvalidMenuOptionException e) {
+            fail();
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void checkoutMovie(){
+        try {
+            assertEquals(TerminalIOWrapper.SUCCESSFUL_CHECKOUT_MESSAGE, terminalIOWrapper.runCommand("Checkout Movie 5"));
+            assertEquals(TerminalIOWrapper.UNSUCCESFUL_CHECKOUT_MESSAGE, terminalIOWrapper.runCommand("Checkout Movie 5"));
+        } catch (TerminalIOWrapper.UserInducedQuitException e) {
+            fail();
+            e.printStackTrace();
+        } catch (TerminalIOWrapper.InvalidMenuOptionException e) {
+            fail();
             e.printStackTrace();
         }
     }
@@ -91,9 +111,9 @@ public class TerminalIOWrapperTest {
     @Test
     public void returnBook(){
         try {
-            assertEquals(TerminalIOWrapper.UNSUCCESFUL_RETURN_MESSAGE, terminalIOWrapper.runCommand("Return 5"));
-            assertEquals(TerminalIOWrapper.SUCCESSFUL_CHECKOUT_MESSAGE, terminalIOWrapper.runCommand("Checkout 5"));
-            assertEquals(TerminalIOWrapper.SUCCESSFUL_RETURN_MESSAGE, terminalIOWrapper.runCommand("Return 5"));
+            assertEquals(TerminalIOWrapper.UNSUCCESFUL_RETURN_MESSAGE, terminalIOWrapper.runCommand("Return Book 5"));
+            assertEquals(TerminalIOWrapper.SUCCESSFUL_CHECKOUT_MESSAGE, terminalIOWrapper.runCommand("Checkout Book 5"));
+            assertEquals(TerminalIOWrapper.SUCCESSFUL_RETURN_MESSAGE, terminalIOWrapper.runCommand("Return Book 5"));
         } catch (TerminalIOWrapper.UserInducedQuitException e) {
             fail();
         } catch (TerminalIOWrapper.InvalidMenuOptionException e) {

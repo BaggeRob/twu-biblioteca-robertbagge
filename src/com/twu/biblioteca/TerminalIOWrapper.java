@@ -37,72 +37,77 @@ public class TerminalIOWrapper {
         if(command.equals(TerminalIOWrapper.LIST_TERMINAL_MENU_OPTIONS)){
             return this.listMenuOptions();
         }else if(command.equals(TerminalIOWrapper.MENU_OPTION_LIST_BOOKS)){
-            return library.listBooks();
+            return listBooks();
         }else if(command.equals(TerminalIOWrapper.MENU_OPTION_QUIT)){
             throw new UserInducedQuitException();
-        }else if(commandIsCheckoutCommand(command)){
-            return checkoutBook(command);
-        }else if(commandIsReturnCommand(command)){
-            return returnBook(command);
+        }else if(command.split(" ")[0].equals(TerminalIOWrapper.MENU_OPTION_CHECKOUT)){
+            return checkoutMedia(command);
+        }else if(command.split(" ")[0].equals(TerminalIOWrapper.MENU_OPTION_RETURN)){
+            return returnMedia(command);
         }else if(command.equals(TerminalIOWrapper.MENU_OPTION_LIST_MOVIES)){
-            return library.listMovies();
+            return listMovies();
         }else{
             throw new InvalidMenuOptionException();
         }
     }
 
+
     public String listMenuOptions(){
         String menu = "Choose one of the following menu options: \n";
-        menu += TerminalIOWrapper.MENU_OPTION_LIST_BOOKS + " - 'List Books'\n";
-        menu += TerminalIOWrapper.MENU_OPTION_LIST_MOVIES + " - 'List Movies'\n";
-        menu += TerminalIOWrapper.MENU_OPTION_CHECKOUT + " - 'Checkout <book_id>'\n";
-        menu += TerminalIOWrapper.MENU_OPTION_RETURN + " - 'Return <book_id>'\n";
+        menu += TerminalIOWrapper.MENU_OPTION_LIST_BOOKS + " - '" + TerminalIOWrapper.MENU_OPTION_LIST_BOOKS + "'\n";
+        menu += TerminalIOWrapper.MENU_OPTION_LIST_MOVIES + " - '" + TerminalIOWrapper.MENU_OPTION_LIST_MOVIES + "'\n";
+        menu += TerminalIOWrapper.MENU_OPTION_CHECKOUT + " - ex: '" + TerminalIOWrapper.MENU_OPTION_CHECKOUT + " Movie 5' (<action> <media type> <media id>)\n";
+        menu += TerminalIOWrapper.MENU_OPTION_RETURN + " - ex: '" + TerminalIOWrapper.MENU_OPTION_RETURN + " Book 11' (<action> <media type> <media id>)\n";
         menu += TerminalIOWrapper.MENU_OPTION_QUIT + " - 'Quit'";
         return menu;
     }
 
-    private boolean commandIsCommand(String commandToValidate, String commandToCheckFor) throws InvalidMenuOptionException {
+    private String listMovies() throws InvalidMenuOptionException {
         try {
-            return commandToValidate.substring(0, commandToCheckFor.length()).equals(commandToCheckFor);
-        } catch (StringIndexOutOfBoundsException e) {
+            return library.listMovies();
+        } catch (Library.InvalidMediaTypeException e) {
             throw new InvalidMenuOptionException();
         }
     }
 
-    private boolean commandIsReturnCommand(String command) throws InvalidMenuOptionException {
-        return commandIsCommand(command, TerminalIOWrapper.MENU_OPTION_RETURN);
-    }
-
-    private boolean commandIsCheckoutCommand(String command) throws InvalidMenuOptionException{
-        return commandIsCommand(command, TerminalIOWrapper.MENU_OPTION_CHECKOUT);
-    }
-
-    private String getBookIdInCommand(String command, String menuOption){
-        return command.substring(menuOption.length()).trim();
-    }
-
-    private String checkoutBook(String command) throws InvalidMenuOptionException{
+    private String listBooks() throws InvalidMenuOptionException{
         try {
-            String bookId = getBookIdInCommand(command, TerminalIOWrapper.MENU_OPTION_CHECKOUT);
-            if(library.loanBook(bookId)){
+            return library.listBooks();
+        } catch (Library.InvalidMediaTypeException e) {
+            throw new InvalidMenuOptionException();
+        }
+    }
+
+    private String checkoutMedia(String command) throws InvalidMenuOptionException{
+        try {
+            String[] commandArgs = command.split(" ");
+            String media_type = commandArgs[1];
+            String mediaId = commandArgs[2];
+            if(library.loanMedia(mediaId, media_type)){
                 return TerminalIOWrapper.SUCCESSFUL_CHECKOUT_MESSAGE;
             }else{
                 return TerminalIOWrapper.UNSUCCESFUL_CHECKOUT_MESSAGE;
             }
-        } catch (Library.InvalidBookIdException e) {
+        } catch (Library.InvalidMediaIdException e) {
+            throw new InvalidMenuOptionException();
+        } catch (Library.InvalidMediaTypeException e) {
             throw new InvalidMenuOptionException();
         }
     }
 
-    private String returnBook(String command) throws InvalidMenuOptionException {
+    private String returnMedia(String command) throws InvalidMenuOptionException {
         try {
-            String bookId = getBookIdInCommand(command, TerminalIOWrapper.MENU_OPTION_RETURN);
-            if(library.returnBook(bookId)){
+            String[] commandArgs = command.split(" ");
+            String media_type = commandArgs[1];
+            String mediaId = commandArgs[2];
+            if(library.returnMedia(mediaId, media_type)){
                 return TerminalIOWrapper.SUCCESSFUL_RETURN_MESSAGE;
             }else{
                 return TerminalIOWrapper.UNSUCCESFUL_RETURN_MESSAGE;
             }
-        } catch (Library.InvalidBookIdException e) {
+        } catch (Library.InvalidMediaIdException e) {
+            throw new InvalidMenuOptionException();
+        } catch (Library.InvalidMediaTypeException e) {
             throw new InvalidMenuOptionException();
         }
     }

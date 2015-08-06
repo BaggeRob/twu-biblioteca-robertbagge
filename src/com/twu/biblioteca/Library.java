@@ -7,8 +7,11 @@ import java.util.ArrayList;
  */
 public class Library {
 
-    private final static boolean BOOK_IN_LIBRARY = true;
-    private final static boolean BOOK_NOT_IN_LIBRARY = false;
+    private final static boolean MEDIA_IN_LIBRARY = true;
+    private final static boolean MEDIA_NOT_IN_LIBRARY = false;
+
+    public final static String MEDIA_TYPE_BOOK = "Book";
+    public final static String MEDIA_TYPE_MOVIE = "Movie";
 
     private MockDatabase database;
 
@@ -20,53 +23,77 @@ public class Library {
         return database.getAllBooks().size();
     }
 
-    public String listBooks() {
-        String availableBooks = String.format(Book.BOOK_FORMAT_FIELDS, "Book Id", "Book Title", "Author", "Year Published");
+    public String listBooks() throws InvalidMediaTypeException {
+        String headlineBooks = String.format(Book.BOOK_FORMAT_FIELDS, "Book Id", "Book Title", "Author", "Year Published");
+        return headlineBooks + listMedia(Library.MEDIA_TYPE_BOOK);
+    }
 
-        for(Book book: database.getBooksOnAvailability(true)){
-            availableBooks += book.toString();
+    public String listMovies() throws InvalidMediaTypeException {
+        String headlineMovies = String.format(Movie.MOVIE_FORMAT_FIELDS, "Movie Id", "Movie Title", "Director", "Year", "Rating");
+        return headlineMovies + listMedia(Library.MEDIA_TYPE_MOVIE);
+    }
+
+    private String listMedia(String mediaType) throws InvalidMediaTypeException {
+        String listOfMedia = "";
+        ArrayList<Media> mediaList = getAvailableMediaForMediaType(mediaType);
+        for(Media media: mediaList){
+            listOfMedia += media.toString();
         }
-        return availableBooks;
+        return listOfMedia;
     }
 
-    public String listMovies() {
-        String availableMovies = String.format(Movie.MOVIE_FORMAT_FIELDS, "Movie Id", "Movie Title", "Director", "Year", "Rating");
-        for(Movie movie: database.getMoviesOnAvailability(true)){
-            availableMovies += movie.toString();
-        }
-        return availableMovies;
+    public boolean returnMedia(String mediaId, String mediaType) throws InvalidMediaIdException, InvalidMediaTypeException{
+        return changeMediaStatus(mediaId, mediaType, Library.MEDIA_NOT_IN_LIBRARY, Library.MEDIA_IN_LIBRARY);
     }
 
-    private int convertBookIdFromStringToInt(String bookIdString) throws InvalidBookIdException{
-        try {
-            int bookId = Integer.parseInt(bookIdString);
-            return bookId;
-        } catch (NumberFormatException e) {
-            throw new InvalidBookIdException();
-        }
+    public boolean loanMedia(String mediaId, String mediaType) throws InvalidMediaIdException, InvalidMediaTypeException{
+        return changeMediaStatus(mediaId, mediaType, Library.MEDIA_IN_LIBRARY, Library.MEDIA_NOT_IN_LIBRARY);
     }
 
-    public boolean loanBook(String bookIdString) throws InvalidBookIdException{
-        return changeBookStatus(bookIdString, Library.BOOK_IN_LIBRARY, Library.BOOK_NOT_IN_LIBRARY);
-    }
-
-
-    public boolean returnBook(String bookIdString) throws InvalidBookIdException {
-        return changeBookStatus(bookIdString, Library.BOOK_NOT_IN_LIBRARY, Library.BOOK_IN_LIBRARY);
-    }
-
-    private boolean changeBookStatus(String bookIdString, boolean statusFrom, boolean statusTo) throws InvalidBookIdException {
-        int bookId = convertBookIdFromStringToInt(bookIdString);
-        if(database.getBooksOnAvailability(statusFrom).contains(new Book("", "", "", bookId))){
-            Book book = database.getBookById(bookId);
-            book.setAvailability(statusTo);
+    private boolean changeMediaStatus(String mediaIdString, String mediaType, boolean statusFrom, boolean statusTo) throws InvalidMediaIdException, InvalidMediaTypeException {
+        validateMediaType(mediaType);
+        int mediaId = convertMediaIdFromStringToInt(mediaIdString);
+        Media media = database.getMediaById(mediaId, mediaType);
+        if(media != null && media.isAvailable() == statusFrom){
+            media.setAvailability(statusTo);
             return true;
         }
         return false;
+    }
+
+    private void validateMediaType(String mediaType) throws InvalidMediaTypeException{
+        if(!mediaType.equals(Library.MEDIA_TYPE_MOVIE) && !mediaType.equals(Library.MEDIA_TYPE_BOOK)){
+            throw new InvalidMediaTypeException();
+        }
 
     }
 
-    public class InvalidBookIdException extends Exception{
+    private int convertMediaIdFromStringToInt(String mediaIdString) throws InvalidMediaIdException {
+        try {
+            int bookId = Integer.parseInt(mediaIdString);
+            return bookId;
+        } catch (NumberFormatException e) {
+            throw new InvalidMediaIdException();
+        }
+    }
+
+    public ArrayList<Media> getAvailableMediaForMediaType(String mediaType) throws InvalidMediaTypeException {
+        validateMediaType(mediaType);
+        if(mediaType.equals(Library.MEDIA_TYPE_MOVIE)){
+            return database.getMoviesOnAvailability(true);
+        }else if(mediaType.equals(Library.MEDIA_TYPE_BOOK)){
+            return  database.getBooksOnAvailability(true);
+        }else{
+            return new ArrayList<Media>();
+        }
+    }
+
+
+    public class InvalidMediaIdException extends Exception{
+
+    }
+
+    public class InvalidMediaTypeException extends Exception{
 
     }
 }

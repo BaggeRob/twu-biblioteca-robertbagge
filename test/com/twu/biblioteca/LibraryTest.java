@@ -35,16 +35,18 @@ public class LibraryTest {
         try {
             assertTrue(library.listBooks().contains("Don Quixote"));
             System.out.println(library.listBooks());
-            assertTrue(library.loanBook("3"));
+            assertTrue(library.loanMedia("3", Library.MEDIA_TYPE_BOOK));
             assertFalse(library.listBooks().contains("Don Quixote"));
             System.out.println(library.listBooks());
-            assertTrue(library.loanBook("9"));
+            assertTrue(library.loanMedia("9", Library.MEDIA_TYPE_BOOK));
             assertFalse(library.listBooks().contains("The Divine Comedy"));
-            assertFalse(library.loanBook("9"));
+            assertFalse(library.loanMedia("9", Library.MEDIA_TYPE_BOOK));
             System.out.println(library.listBooks());
 
-            assertFalse(library.loanBook("10000"));
-        } catch (Library.InvalidBookIdException e) {
+            assertFalse(library.loanMedia("10000", Library.MEDIA_TYPE_BOOK));
+        } catch (Library.InvalidMediaIdException e) {
+            fail();
+        } catch (Library.InvalidMediaTypeException e) {
             fail();
         }
     }
@@ -53,20 +55,27 @@ public class LibraryTest {
     public void testReturnBook(){
         try {
             assertTrue(library.listBooks().contains("Hamlet"));
-            assertFalse(library.returnBook("5"));
-            assertTrue(library.loanBook("5"));
+            assertFalse(library.returnMedia("5", Library.MEDIA_TYPE_BOOK));
+            assertTrue(library.loanMedia("5", Library.MEDIA_TYPE_BOOK));
             assertFalse(library.listBooks().contains("Hamlet"));
-            assertTrue(library.returnBook("5"));
+            assertTrue(library.returnMedia("5", Library.MEDIA_TYPE_BOOK));
             assertTrue(library.listBooks().contains("Hamlet"));
-        }catch (Library.InvalidBookIdException e) {
+        }catch (Library.InvalidMediaIdException e) {
+            fail();
+        } catch (Library.InvalidMediaTypeException e) {
             fail();
         }
     }
 
     @Test
     public void testListAllBooksNotNull(){
-        assertNotNull(library.listBooks());
-        System.out.println(library.listBooks());
+        try {
+            assertNotNull(library.listBooks());
+            System.out.println(library.listBooks());
+        } catch (Library.InvalidMediaTypeException e) {
+            fail();
+        }
+
     }
 
 }
