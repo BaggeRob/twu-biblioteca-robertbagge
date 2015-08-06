@@ -8,9 +8,11 @@ import java.util.ArrayList;
 public class MockDatabase {
 
     private ArrayList<Book> books;
+    private ArrayList<Movie> movies;
 
     public MockDatabase(){
         books = createBooks();
+        movies = createMovies();
     }
 
     public ArrayList<Book> getAllBooks(){
@@ -52,10 +54,29 @@ public class MockDatabase {
         return tempBooks;
     }
 
+    private ArrayList<Movie> createMovies(){
+        ArrayList<Movie> tempMovies = new ArrayList<Movie>();
+
+        tempMovies.add(new Movie("Shawshank Redemption", 1, "1994", "Frank Darabont", "9"));
+        tempMovies.add(new Movie("The Godfather", 2, "1972", "Francis Ford Coppola", "9"));
+        tempMovies.add(new Movie("The Godfather:Part II", 3, "1974", "Francis Ford Coppola", "9"));
+        tempMovies.add(new Movie("The Dark Knight", 4, "2008", "Christopher Nolan", "9"));
+        tempMovies.add(new Movie("Citizen Kane", 5, "1941", "Orson Welles", "8"));
+        tempMovies.add(new Movie("Rocky", 6, "1976", "Sylvester Stalone", "8"));
+        tempMovies.add(new Movie("Spread", 7, "2009", "David Mackenzi", "6"));
+        tempMovies.add(new Movie("Catch Me If You Can", 8, "2002", "Steven Spielberg", "8"));
+        tempMovies.add(new Movie("The Human Centipede", 9, "2009", "Tom Six", "Unrated"));
+        tempMovies.add(new Movie("Gladiator", 10, "2000", "Ridley Scott", "8"));
+
+        return tempMovies;
+
+
+    }
+
     public ArrayList<Book> getBooksOnAvailability(boolean requestedAvailability) {
         ArrayList<Book> availableBooks = new ArrayList<Book>();
         for(int i = 0; i < books.size(); i++){
-            if(books.get(i).getAvailability() == requestedAvailability){
+            if(books.get(i).isAvailable() == requestedAvailability){
                 availableBooks.add(books.get(i));
             }
         }
@@ -63,12 +84,25 @@ public class MockDatabase {
         return availableBooks;
     }
 
+    public ArrayList<Movie> getMoviesOnAvailability(boolean requestedAvailability) {
+        ArrayList<Movie> availableMovies = new ArrayList<Movie>();
+        for(int i = 0; i < movies.size(); i++){
+            if(movies.get(i).isAvailable() == requestedAvailability){
+                availableMovies.add(movies.get(i));
+            }
+        }
+
+        return availableMovies;
+    }
+
     public Book getBookById(int bookId) {
         for(Book book: books){
-            if(book.getBookId() == bookId){
+            if(book.getId() == bookId){
                 return book;
             }
         }
         return null;
     }
+
+
 }

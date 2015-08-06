@@ -20,6 +20,7 @@ public class TerminalIOWrapper {
 
     public final static String LIST_TERMINAL_MENU_OPTIONS = "List menu options";
     public final static String MENU_OPTION_LIST_BOOKS = "List Books";
+    public final static String MENU_OPTION_LIST_MOVIES = "List Movies";
     public final static String MENU_OPTION_QUIT = "Quit";
     public final static String MENU_OPTION_CHECKOUT = "Checkout";
     public final static String MENU_OPTION_RETURN = "Return";
@@ -43,6 +44,8 @@ public class TerminalIOWrapper {
             return checkoutBook(command);
         }else if(commandIsReturnCommand(command)){
             return returnBook(command);
+        }else if(command.equals(TerminalIOWrapper.MENU_OPTION_LIST_MOVIES)){
+            return library.listMovies();
         }else{
             throw new InvalidMenuOptionException();
         }
@@ -51,6 +54,7 @@ public class TerminalIOWrapper {
     public String listMenuOptions(){
         String menu = "Choose one of the following menu options: \n";
         menu += TerminalIOWrapper.MENU_OPTION_LIST_BOOKS + " - 'List Books'\n";
+        menu += TerminalIOWrapper.MENU_OPTION_LIST_MOVIES + " - 'List Movies'\n";
         menu += TerminalIOWrapper.MENU_OPTION_CHECKOUT + " - 'Checkout <book_id>'\n";
         menu += TerminalIOWrapper.MENU_OPTION_RETURN + " - 'Return <book_id>'\n";
         menu += TerminalIOWrapper.MENU_OPTION_QUIT + " - 'Quit'";

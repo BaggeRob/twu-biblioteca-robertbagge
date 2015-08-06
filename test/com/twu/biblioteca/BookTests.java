@@ -4,50 +4,56 @@ package com.twu.biblioteca;
  * Created by Robert on 29/07/15.
  */
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class BookTests {
+    Book book;
 
-    @Test
-    public void testBookName(){
-        assertEquals("Harry Potter", new Book("Harry Potter").getName());
+    @Before
+    public void setUp(){
+        book = new Book("Harry Potter", "JK Rowling", "1999", 11);
+    }
+
+    @After
+    public void tearDown(){
+        book = null;
     }
 
     @Test
-    public void testNewBookAvailability(){
-        assertTrue(new Book("Hairy P").availability);
+    public void testBookName(){
+        assertEquals("Harry Potter", book.getName());
     }
 
     @Test
     public void testSetAvailability(){
-        assertEquals(false, new Book("Duncan T").setAvailability(false));
-        assertEquals(true, new Book("Duncan T").setAvailability(true));
+        assertEquals(false, book.setAvailability(false));
+        assertEquals(true, book.setAvailability(true));
     }
 
     @Test
     public void testGetAvailability(){
-        Book book = new Book("Night Cab");
-        assertEquals(true, book.getAvailability());
+        assertEquals(true, book.isAvailable());
         book.setAvailability(false);
-        assertEquals(false, book.getAvailability());
+        assertEquals(false, book.isAvailable());
     }
 
     @Test
     public void testAuthor(){
-        Book book = new Book("How to kill a mockingbird", "Harper Lee");
-        assertEquals("Harper Lee", book.getAuthor());
+        assertEquals("JK Rowling", book.getCreator());
     }
 
     @Test
     public void testYearPublished(){
-        assertEquals("1960", new Book("How to kill a mockingbird", "Harper Lee", "1960").getYearPublished());
+        assertEquals("1999", book.getYear());
     }
 
     @Test
     public void testBookId(){
-        assertEquals(12, new Book("How to kill a mockingbird", "Harper Lee", "1960", 12).getBookId());
+        assertEquals(11, book.getId());
     }
 
     @Test

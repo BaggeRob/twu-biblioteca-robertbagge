@@ -51,6 +51,20 @@ public class TerminalIOWrapperTest {
     }
 
     @Test
+    public void listMoviesTest(){
+        try {
+            assertEquals(library.listMovies(), terminalIOWrapper.runCommand(TerminalIOWrapper.MENU_OPTION_LIST_MOVIES));
+        } catch (TerminalIOWrapper.UserInducedQuitException e) {
+            e.printStackTrace();
+            fail();
+        } catch (TerminalIOWrapper.InvalidMenuOptionException e) {
+            e.printStackTrace();
+            fail();
+        }
+    }
+
+
+    @Test
     public void invalidMenuOptionTest(){
         try {
 //            assertEquals(TerminalIOWrapper.VALID_OPTION_MESSAGE, terminalIOWrapper.runCommand("Nothing serious at all"));

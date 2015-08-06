@@ -2,8 +2,6 @@ package com.twu.biblioteca;
 
 import org.junit.Test;
 
-import java.util.ArrayList;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -21,7 +19,7 @@ public class MockDatabaseTest {
     @Test
     public void testGetBookById(){
         int id = 15;
-        assertEquals(id, new MockDatabase().getBookById(id).getBookId());
+        assertEquals(id, new MockDatabase().getBookById(id).getId());
     }
 
 //    @Test
@@ -30,7 +28,7 @@ public class MockDatabaseTest {
 //        int availableSize = 0;
 //        int unavailableSize = 0;
 //        for(int i = 0; i < mb.getAllBooks().size(); i++){
-//            if(mb.getAllBooks().get(i).getAvailability() == true){
+//            if(mb.getAllBooks().get(i).isAvailable() == true){
 //                availableSize++;
 //                unavailableSize++;
 //            }
@@ -51,7 +49,7 @@ public class MockDatabaseTest {
 //        MockDatabase mb = new MockDatabase();
 //        ArrayList<Book> availableBooks = mb.getBooksOnAvailability(true);
 //        for(Book book: availableBooks){
-//            if(!book.getAvailability()){
+//            if(!book.isAvailable()){
 //                fail();
 //            }
 //        }

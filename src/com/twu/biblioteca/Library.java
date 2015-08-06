@@ -21,15 +21,20 @@ public class Library {
     }
 
     public String listBooks() {
-
-
-
         String availableBooks = String.format(Book.BOOK_FORMAT_FIELDS, "Book Id", "Book Title", "Author", "Year Published");
 
         for(Book book: database.getBooksOnAvailability(true)){
             availableBooks += book.toString();
         }
         return availableBooks;
+    }
+
+    public String listMovies() {
+        String availableMovies = String.format(Movie.MOVIE_FORMAT_FIELDS, "Movie Id", "Movie Title", "Director", "Year", "Rating");
+        for(Movie movie: database.getMoviesOnAvailability(true)){
+            availableMovies += movie.toString();
+        }
+        return availableMovies;
     }
 
     private int convertBookIdFromStringToInt(String bookIdString) throws InvalidBookIdException{
@@ -39,7 +44,6 @@ public class Library {
         } catch (NumberFormatException e) {
             throw new InvalidBookIdException();
         }
-
     }
 
     public boolean loanBook(String bookIdString) throws InvalidBookIdException{
