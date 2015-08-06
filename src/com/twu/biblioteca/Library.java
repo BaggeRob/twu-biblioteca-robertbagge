@@ -7,6 +7,9 @@ import java.util.ArrayList;
  */
 public class Library {
 
+    private final static boolean BOOK_IN_LIBRARY = true;
+    private final static boolean BOOK_NOT_IN_LIBRARY = false;
+
     private MockDatabase database;
 
     public Library(){
@@ -29,12 +32,37 @@ public class Library {
         return availableBooks;
     }
 
-    public boolean loanBook(int bookId) {
-        if(database.getBooksOnAvailability(true).contains(new Book("", "", "", bookId))){
+    private int convertBookIdFromStringToInt(String bookIdString) throws InvalidBookIdException{
+        try {
+            int bookId = Integer.parseInt(bookIdString);
+            return bookId;
+        } catch (NumberFormatException e) {
+            throw new InvalidBookIdException();
+        }
+
+    }
+
+    public boolean loanBook(String bookIdString) throws InvalidBookIdException{
+        return changeBookStatus(bookIdString, Library.BOOK_IN_LIBRARY, Library.BOOK_NOT_IN_LIBRARY);
+    }
+
+
+    public boolean returnBook(String bookIdString) throws InvalidBookIdException {
+        return changeBookStatus(bookIdString, Library.BOOK_NOT_IN_LIBRARY, Library.BOOK_IN_LIBRARY);
+    }
+
+    private boolean changeBookStatus(String bookIdString, boolean statusFrom, boolean statusTo) throws InvalidBookIdException {
+        int bookId = convertBookIdFromStringToInt(bookIdString);
+        if(database.getBooksOnAvailability(statusFrom).contains(new Book("", "", "", bookId))){
             Book book = database.getBookById(bookId);
-            book.setAvailability(false);
+            book.setAvailability(statusTo);
             return true;
         }
         return false;
+
+    }
+
+    public class InvalidBookIdException extends Exception{
+
     }
 }

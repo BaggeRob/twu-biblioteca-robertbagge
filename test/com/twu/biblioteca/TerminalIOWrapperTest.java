@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 /**
  * Created by rbagge on 05/08/2015.
@@ -52,16 +53,17 @@ public class TerminalIOWrapperTest {
     @Test
     public void invalidMenuOptionTest(){
         try {
-            assertEquals(TerminalIOWrapper.VALID_OPTION_MESSAGE, terminalIOWrapper.runCommand("Nothing serious at all"));
+//            assertEquals(TerminalIOWrapper.VALID_OPTION_MESSAGE, terminalIOWrapper.runCommand("Nothing serious at all"));
+            terminalIOWrapper.runCommand("Nothing serious at all");
+            fail();
         } catch (TerminalIOWrapper.UserInducedQuitException e) {
-            e.printStackTrace();
+            fail();
         } catch (TerminalIOWrapper.InvalidMenuOptionException e) {
-            e.printStackTrace();
         }
     }
 
     @Test
-    public void checkoutBookValidBook(){
+    public void checkoutBook(){
         try {
             assertEquals(TerminalIOWrapper.SUCCESSFUL_CHECKOUT_MESSAGE, terminalIOWrapper.runCommand("Checkout 3"));
             assertEquals(TerminalIOWrapper.UNSUCCESFUL_CHECKOUT_MESSAGE, terminalIOWrapper.runCommand("Checkout 3"));
@@ -70,6 +72,20 @@ public class TerminalIOWrapperTest {
         } catch (TerminalIOWrapper.InvalidMenuOptionException e) {
             e.printStackTrace();
         }
+    }
+
+    @Test
+    public void returnBook(){
+        try {
+            assertEquals(TerminalIOWrapper.UNSUCCESFUL_RETURN_MESSAGE, terminalIOWrapper.runCommand("Return 5"));
+            assertEquals(TerminalIOWrapper.SUCCESSFUL_CHECKOUT_MESSAGE, terminalIOWrapper.runCommand("Checkout 5"));
+            assertEquals(TerminalIOWrapper.SUCCESSFUL_RETURN_MESSAGE, terminalIOWrapper.runCommand("Return 5"));
+        } catch (TerminalIOWrapper.UserInducedQuitException e) {
+            fail();
+        } catch (TerminalIOWrapper.InvalidMenuOptionException e) {
+            fail();
+        }
+
     }
 
 

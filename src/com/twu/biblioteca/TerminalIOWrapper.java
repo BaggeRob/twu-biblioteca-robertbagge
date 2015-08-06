@@ -15,11 +15,16 @@ public class TerminalIOWrapper {
     public static final String QUIT_MESSAGE = "Closing application";
     public static final String SUCCESSFUL_CHECKOUT_MESSAGE = "Thank you! Enjoy the book";
     public static final String UNSUCCESFUL_CHECKOUT_MESSAGE = "That book is not available.";
+    public static final String SUCCESSFUL_RETURN_MESSAGE = "Thank you for returning the book.";
+    public static final String UNSUCCESFUL_RETURN_MESSAGE = "That is not a valid book to return.";
 
     public final static String LIST_TERMINAL_MENU_OPTIONS = "List menu options";
     public final static String MENU_OPTION_LIST_BOOKS = "List Books";
     public final static String MENU_OPTION_QUIT = "Quit";
     public final static String MENU_OPTION_CHECKOUT = "Checkout";
+    public final static String MENU_OPTION_RETURN = "Return";
+
+
 
     private Library library;
 
@@ -36,18 +41,66 @@ public class TerminalIOWrapper {
             throw new UserInducedQuitException();
         }else if(commandIsCheckoutCommand(command)){
             return checkoutBook(command);
+        }else if(commandIsReturnCommand(command)){
+            return returnBook(command);
         }else{
             throw new InvalidMenuOptionException();
         }
-
     }
 
     public String listMenuOptions(){
         String menu = "Choose one of the following menu options: \n";
         menu += TerminalIOWrapper.MENU_OPTION_LIST_BOOKS + " - 'List Books'\n";
         menu += TerminalIOWrapper.MENU_OPTION_CHECKOUT + " - 'Checkout <book_id>'\n";
+        menu += TerminalIOWrapper.MENU_OPTION_RETURN + " - 'Return <book_id>'\n";
         menu += TerminalIOWrapper.MENU_OPTION_QUIT + " - 'Quit'";
         return menu;
+    }
+
+    private boolean commandIsCommand(String commandToValidate, String commandToCheckFor) throws InvalidMenuOptionException {
+        try {
+            return commandToValidate.substring(0, commandToCheckFor.length()).equals(commandToCheckFor);
+        } catch (StringIndexOutOfBoundsException e) {
+            throw new InvalidMenuOptionException();
+        }
+    }
+
+    private boolean commandIsReturnCommand(String command) throws InvalidMenuOptionException {
+        return commandIsCommand(command, TerminalIOWrapper.MENU_OPTION_RETURN);
+    }
+
+    private boolean commandIsCheckoutCommand(String command) throws InvalidMenuOptionException{
+        return commandIsCommand(command, TerminalIOWrapper.MENU_OPTION_CHECKOUT);
+    }
+
+    private String getBookIdInCommand(String command, String menuOption){
+        return command.substring(menuOption.length()).trim();
+    }
+
+    private String checkoutBook(String command) throws InvalidMenuOptionException{
+        try {
+            String bookId = getBookIdInCommand(command, TerminalIOWrapper.MENU_OPTION_CHECKOUT);
+            if(library.loanBook(bookId)){
+                return TerminalIOWrapper.SUCCESSFUL_CHECKOUT_MESSAGE;
+            }else{
+                return TerminalIOWrapper.UNSUCCESFUL_CHECKOUT_MESSAGE;
+            }
+        } catch (Library.InvalidBookIdException e) {
+            throw new InvalidMenuOptionException();
+        }
+    }
+
+    private String returnBook(String command) throws InvalidMenuOptionException {
+        try {
+            String bookId = getBookIdInCommand(command, TerminalIOWrapper.MENU_OPTION_RETURN);
+            if(library.returnBook(bookId)){
+                return TerminalIOWrapper.SUCCESSFUL_RETURN_MESSAGE;
+            }else{
+                return TerminalIOWrapper.UNSUCCESFUL_RETURN_MESSAGE;
+            }
+        } catch (Library.InvalidBookIdException e) {
+            throw new InvalidMenuOptionException();
+        }
     }
 
     public void run(){
@@ -71,33 +124,6 @@ public class TerminalIOWrapper {
         } catch (UserInducedQuitException e) {
             System.out.println(TerminalIOWrapper.QUIT_MESSAGE);
             System.exit(0);
-        }
-    }
-
-    private boolean commandIsCheckoutCommand(String command) throws InvalidMenuOptionException{
-        try{
-            return command.substring(0, 8).equals(TerminalIOWrapper.MENU_OPTION_CHECKOUT);
-        }catch(StringIndexOutOfBoundsException e){
-            throw new InvalidMenuOptionException();
-        }
-
-    }
-
-    private String prepareCommandForCheckout(String command){
-        return command.substring(8).trim();
-    }
-
-    private String checkoutBook(String command) throws InvalidMenuOptionException{
-        try {
-            String stringBookId = prepareCommandForCheckout(command);
-            int bookId = Integer.parseInt(stringBookId);
-            if(library.loanBook(bookId)){
-                return TerminalIOWrapper.SUCCESSFUL_CHECKOUT_MESSAGE;
-            }else{
-                return TerminalIOWrapper.UNSUCCESFUL_CHECKOUT_MESSAGE;
-            }
-        } catch (NumberFormatException e) {
-            throw new InvalidMenuOptionException();
         }
     }
 

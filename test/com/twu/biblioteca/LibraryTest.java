@@ -32,17 +32,35 @@ public class LibraryTest {
 
     @Test
     public void testLoanBook(){
-        assertTrue(library.listBooks().contains("Don Quixote"));
-        System.out.println(library.listBooks());
-        assertTrue(library.loanBook(3));
-        assertFalse(library.listBooks().contains("Don Quixote"));
-        System.out.println(library.listBooks());
-        assertTrue(library.loanBook(9));
-        assertFalse(library.listBooks().contains("The Divine Comedy"));
-        assertFalse(library.loanBook(9));
-        System.out.println(library.listBooks());
+        try {
+            assertTrue(library.listBooks().contains("Don Quixote"));
+            System.out.println(library.listBooks());
+            assertTrue(library.loanBook("3"));
+            assertFalse(library.listBooks().contains("Don Quixote"));
+            System.out.println(library.listBooks());
+            assertTrue(library.loanBook("9"));
+            assertFalse(library.listBooks().contains("The Divine Comedy"));
+            assertFalse(library.loanBook("9"));
+            System.out.println(library.listBooks());
 
-        assertFalse(library.loanBook(10000));
+            assertFalse(library.loanBook("10000"));
+        } catch (Library.InvalidBookIdException e) {
+            fail();
+        }
+    }
+
+    @Test
+    public void testReturnBook(){
+        try {
+            assertTrue(library.listBooks().contains("Hamlet"));
+            assertFalse(library.returnBook("5"));
+            assertTrue(library.loanBook("5"));
+            assertFalse(library.listBooks().contains("Hamlet"));
+            assertTrue(library.returnBook("5"));
+            assertTrue(library.listBooks().contains("Hamlet"));
+        }catch (Library.InvalidBookIdException e) {
+            fail();
+        }
     }
 
     @Test
