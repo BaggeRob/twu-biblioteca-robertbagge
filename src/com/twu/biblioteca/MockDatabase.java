@@ -24,11 +24,11 @@ public class MockDatabase {
 
     private ArrayList<User> createUsers() {
         ArrayList<User> tempUsers = new ArrayList<User>();
-        tempUsers.add(new User("123-4567", "pass123-4567"));
-        tempUsers.add(new User("234-5678", "pass234-5678"));
-        tempUsers.add(new User("345-6789", "pass345-6789"));
-        tempUsers.add(new User("456-7890", "pass456-7890"));
-        tempUsers.add(new User("567-8901", "pass567-8901"));
+        tempUsers.add(new User("123-4567", "pass123-4567", "Robert Bagge", "robert.bagge@example.com", "0751234567"));
+        tempUsers.add(new User("234-5678", "pass234-5678", "Test User1", "test.user1@example.com", "0752345678"));
+        tempUsers.add(new User("345-6789", "pass345-6789", "Test User2", "test.user2@example.com", "0753456789"));
+        tempUsers.add(new User("456-7890", "pass456-7890", "Test User3", "test.user3@example.com", "0754567890"));
+        tempUsers.add(new User("567-8901", "pass567-8901", "Test User4", "test.user4@example.com", "0755678901"));
 
         return tempUsers;
     }
@@ -134,7 +134,7 @@ public class MockDatabase {
 
     public User findUser(String libraryNumber) {
         for(User user: users){
-            if(user.equals(new User(libraryNumber, "..."))){
+            if(user.equals(new User(libraryNumber, "...", "name", "email", "phone"))){
                 return user;
             }
         }

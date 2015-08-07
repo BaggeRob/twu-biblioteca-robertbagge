@@ -13,8 +13,7 @@ public class Library {
     public final static String MEDIA_TYPE_BOOK = "Book";
     public final static String MEDIA_TYPE_MOVIE = "Movie";
 
-    private boolean onGoingSession = false;
-
+    private User currentUser = null;
     private MockDatabase database;
 
     public Library(){
@@ -93,18 +92,22 @@ public class Library {
     public boolean userLogin(String libraryNumber, String password) {
         User user = database.findUser(libraryNumber);
         if(user != null && user.validatePassword(password)){
-            startSession();
+            startSession(user);
             return true;
         }
         return false;
     }
 
-    private void startSession() {
-        onGoingSession = true;
+    private void startSession(User user) {
+        currentUser = user;
     }
 
     public boolean onGoingUserSession(){
-        return onGoingSession;
+        return currentUser != null;
+    }
+
+    public String[] getCurrentUserInformation() {
+        return new String[]{currentUser.getName(), currentUser.getEmail(), currentUser.getPhoneNumber()};
     }
 
     public class InvalidMediaIdException extends Exception{

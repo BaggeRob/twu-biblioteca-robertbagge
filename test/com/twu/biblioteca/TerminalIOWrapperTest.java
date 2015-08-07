@@ -1,11 +1,9 @@
 package com.twu.biblioteca;
 
-import com.sun.xml.internal.xsom.impl.Ref;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
@@ -156,13 +154,32 @@ public class TerminalIOWrapperTest {
         }
     }
 
-
-
     @Test
     public void testUserLogin(){
         try {
             assertEquals(TerminalIOWrapper.SUCCESSFUL_LOGIN_MESSAGE, terminalIOWrapper.runCommand("Login 123-4567 pass123-4567"));
             assertEquals(TerminalIOWrapper.UNSUCCESFUL_LOGIN_MESSAGE, terminalIOWrapper.runCommand("Login 123-4567 passfas123-4567"));
+        } catch (TerminalIOWrapper.UserInducedQuitException e) {
+            fail();
+        } catch (TerminalIOWrapper.InvalidMenuOptionException e) {
+            fail();
+        }
+    }
+
+    @Test
+    public void testUserInformation(){
+        try {
+            terminalIOWrapper.runCommand(TerminalIOWrapper.MENU_OPTION_SHOW_USER_INFORMATION);
+        } catch (TerminalIOWrapper.UserInducedQuitException e) {
+           fail();
+        } catch (TerminalIOWrapper.InvalidMenuOptionException e) {
+
+        }
+        try {
+            terminalIOWrapper.runCommand("Login 123-4567 pass123-4567");
+            assertEquals("User name: Robert Bagge\n" +
+                    "User e-mail: robert.bagge@example.com\n" +
+                    "User phone number: 0751234567\n", terminalIOWrapper.runCommand(TerminalIOWrapper.MENU_OPTION_SHOW_USER_INFORMATION));
         } catch (TerminalIOWrapper.UserInducedQuitException e) {
             fail();
         } catch (TerminalIOWrapper.InvalidMenuOptionException e) {

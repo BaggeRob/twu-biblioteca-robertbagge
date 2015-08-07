@@ -27,7 +27,7 @@ public class TerminalIOWrapper {
     public final static String MENU_OPTION_CHECKOUT = "Checkout";
     public final static String MENU_OPTION_RETURN = "Return";
     public final static String MENU_OPTION_LOGIN = "Login";
-
+    public static final String MENU_OPTION_SHOW_USER_INFORMATION = "Show user information";
 
 
     private Library library;
@@ -51,11 +51,30 @@ public class TerminalIOWrapper {
             return listMovies();
         }else if(command.split(" ")[0].equals(TerminalIOWrapper.MENU_OPTION_LOGIN)){
             return userLogin(command);
+        }else if(command.equals(TerminalIOWrapper.MENU_OPTION_SHOW_USER_INFORMATION)){
+            return printUserInformation();
         }else{
             throw new InvalidMenuOptionException();
         }
     }
 
+    private String printUserInformation() throws InvalidMenuOptionException {
+        if(validateUserSession()) {
+            System.out.println("Add method to library that returns a string for current user");
+            String userInformation[] = library.getCurrentUserInformation();
+            return formatUserInformation(userInformation);
+        }else {
+            throw new InvalidMenuOptionException();
+        }
+
+    }
+
+    private String formatUserInformation(String[] userInformation){
+        return "User name: " + userInformation[0] + "\n" +
+                "User e-mail: " + userInformation[1] + "\n" +
+                "User phone number: " + userInformation[2] + "\n";
+
+    }
     private String userLogin(String command) {
         String[] commandArgs = command.split(" ");
         String libraryNumber = commandArgs[1];
@@ -67,7 +86,6 @@ public class TerminalIOWrapper {
         }
 
     }
-
 
     public String listMenuOptions(){
         String menu = "Choose one of the following menu options: \n";
@@ -81,7 +99,7 @@ public class TerminalIOWrapper {
     }
 
     private String menuItemsForLoggedInUsers(){
-        return "";
+        return TerminalIOWrapper.MENU_OPTION_SHOW_USER_INFORMATION + " - '" + TerminalIOWrapper.MENU_OPTION_SHOW_USER_INFORMATION +"'\n";
     }
 
     private String menuItemsForNotLoggedInUsers(){
@@ -140,6 +158,9 @@ public class TerminalIOWrapper {
 
     private String returnMedia(String command) throws InvalidMenuOptionException {
         try {
+            if(!validateUserSession()){
+                throw new InvalidMenuOptionException();
+            }
             String[] commandArgs = command.split(" ");
             String media_type = commandArgs[1];
             String mediaId = commandArgs[2];
