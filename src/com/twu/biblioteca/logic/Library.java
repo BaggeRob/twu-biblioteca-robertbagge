@@ -51,5 +51,4 @@ public class Library {
     public User getCurrentUser() {
         return userDelegate.getCurrentUser();
     }
-
 }

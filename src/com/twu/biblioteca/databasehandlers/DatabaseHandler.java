@@ -1,4 +1,7 @@
-package com.twu.biblioteca.database;
+package com.twu.biblioteca.databasehandlers;
+
+import com.twu.biblioteca.database.Database;
+import com.twu.biblioteca.database.MockDatabase;
 
 /**
  * Created by rbagge on 10/08/2015.

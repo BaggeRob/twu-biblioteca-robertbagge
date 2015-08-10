@@ -1,4 +1,4 @@
-package com.twu.biblioteca.database;
+package com.twu.biblioteca.databasehandlers;
 
 import com.twu.biblioteca.logic.Library;
 import com.twu.biblioteca.valueobjects.Media;

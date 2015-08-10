@@ -1,7 +1,7 @@
 package com.twu.biblioteca;
 
 import com.twu.biblioteca.IOwrappers.TerminalIOWrapper;
-import com.twu.biblioteca.database.DatabaseHandler;
+import com.twu.biblioteca.databasehandlers.DatabaseHandler;
 import com.twu.biblioteca.formatting.TerminalIOFormatter;
 import com.twu.biblioteca.logic.Library;
 import org.junit.After;

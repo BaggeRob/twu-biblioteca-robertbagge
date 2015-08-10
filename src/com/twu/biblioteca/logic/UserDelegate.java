@@ -1,7 +1,6 @@
 package com.twu.biblioteca.logic;
 
-import com.twu.biblioteca.database.DatabaseHandler;
-import com.twu.biblioteca.database.UserHandler;
+import com.twu.biblioteca.databasehandlers.UserHandler;
 import com.twu.biblioteca.valueobjects.User;
 
 public class UserDelegate {

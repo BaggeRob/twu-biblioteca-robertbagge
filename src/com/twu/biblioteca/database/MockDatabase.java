@@ -1,5 +1,6 @@
 package com.twu.biblioteca.database;
 
+import com.twu.biblioteca.databasehandlers.MediaHandler;
 import com.twu.biblioteca.valueobjects.Book;
 import com.twu.biblioteca.valueobjects.Media;
 import com.twu.biblioteca.valueobjects.Movie;

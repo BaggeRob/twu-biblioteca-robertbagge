@@ -1,6 +1,6 @@
 package com.twu.biblioteca.logic;
 
-import com.twu.biblioteca.database.MediaHandler;
+import com.twu.biblioteca.databasehandlers.MediaHandler;
 import com.twu.biblioteca.exceptions.InvalidMediaIdException;
 import com.twu.biblioteca.valueobjects.Media;
 
