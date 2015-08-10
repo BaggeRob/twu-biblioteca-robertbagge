@@ -3,6 +3,7 @@ package com.twu.biblioteca.IOwrappers;
 import com.twu.biblioteca.Library;
 import com.twu.biblioteca.exceptions.InvalidMediaIdException;
 import com.twu.biblioteca.exceptions.InvalidMediaTypeException;
+import com.twu.biblioteca.formatting.TerminalIOFormatter;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -41,9 +42,11 @@ public class TerminalIOWrapper {
 
 
     private Library library;
+    private TerminalIOFormatter formatter;
 
     public TerminalIOWrapper(Library library){
         this.library = library;
+        this.formatter = new TerminalIOFormatter();
     }
 
     public String runCommand(String command) throws UserInducedQuitException, InvalidMenuOptionException {
@@ -73,21 +76,13 @@ public class TerminalIOWrapper {
 
     private String printUserInformation() throws InvalidMenuOptionException {
         if(validateUserSession()) {
-            System.out.println("Add method to library that returns a string for current user");
-            String userInformation[] = library.getCurrentUserInformation();
-            return formatUserInformation(userInformation);
+            return formatter.formatUserInformation(library.getCurrentUser());
         }else {
             throw new InvalidMenuOptionException();
         }
 
     }
 
-    private String formatUserInformation(String[] userInformation){
-        return "User name: " + userInformation[0] + "\n" +
-                "User e-mail: " + userInformation[1] + "\n" +
-                "User phone number: " + userInformation[2] + "\n";
-
-    }
     private String userLogin(String command) {
         String[] commandArgs = command.split(" ");
         String libraryNumber = commandArgs[1];
@@ -130,11 +125,11 @@ public class TerminalIOWrapper {
     }
 
     private String listMovies() throws InvalidMenuOptionException {
-        return library.listMovies();
+        return formatter.formatListOfMovies(library.listMovies());
     }
 
     private String listBooks() throws InvalidMenuOptionException{
-        return library.listBooks();
+        return formatter.formatListOfBooks(library.listBooks());
     }
 
     private String checkoutMedia(String command) throws InvalidMenuOptionException{

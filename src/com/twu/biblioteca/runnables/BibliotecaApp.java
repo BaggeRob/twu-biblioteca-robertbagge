@@ -1,6 +1,7 @@
-package com.twu.biblioteca;
+package com.twu.biblioteca.runnables;
 
 import com.twu.biblioteca.IOwrappers.TerminalIOWrapper;
+import com.twu.biblioteca.Library;
 
 public class BibliotecaApp {
 

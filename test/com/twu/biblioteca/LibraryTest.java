@@ -28,18 +28,11 @@ public class LibraryTest {
     }
 
     @Test
-    public void testAllBooksSize(){
-        assertEquals(20, library.numberOfBooks());
-    }
-
-    @Test
     public void testLoanBook(){
         try {
-            assertTrue(library.listBooks().contains("Don Quixote"));
             assertTrue(library.loanBook("3"));
-            assertFalse(library.listBooks().contains("Don Quixote"));
+            assertFalse(library.loanBook("3"));
             assertTrue(library.loanBook("9"));
-            assertFalse(library.listBooks().contains("The Divine Comedy"));
             assertFalse(library.loanBook("9"));
 
             assertFalse(library.loanBook("10000"));
@@ -53,12 +46,9 @@ public class LibraryTest {
     @Test
     public void testReturnBook(){
         try {
-            assertTrue(library.listBooks().contains("Hamlet"));
             assertFalse(library.returnBook("5"));
             assertTrue(library.loanBook("5"));
-            assertFalse(library.listBooks().contains("Hamlet"));
             assertTrue(library.returnBook("5"));
-            assertTrue(library.listBooks().contains("Hamlet"));
         }catch (InvalidMediaIdException e) {
             fail();
         } catch (InvalidMediaTypeException e) {

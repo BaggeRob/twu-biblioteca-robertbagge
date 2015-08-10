@@ -1,4 +1,4 @@
-package com.twu.biblioteca;
+package com.twu.biblioteca.valueobjects;
 
 /**
  * Created by rbagge on 06/08/2015.
@@ -17,6 +17,14 @@ public class User {
         this.name = name;
         this.email = email;
         this.phoneNumber = phoneNumber;
+    }
+
+    public User(){
+        this.libraryNumber = "Couldn't find user";
+        this.passwordHash = "Couldn't find user";
+        this.name = "Couldn't find user";
+        this.email = "Couldn't find user";
+        this.phoneNumber = "Couldn't find user";
     }
 
     public String getLibraryNumber() {

@@ -1,4 +1,4 @@
-package com.twu.biblioteca;
+package com.twu.biblioteca.valueobjects;
 
 /**
  * Created by rbagge on 06/08/2015.

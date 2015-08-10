@@ -4,6 +4,7 @@ package com.twu.biblioteca;
  * Created by Robert on 29/07/15.
  */
 
+import com.twu.biblioteca.valueobjects.Book;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

@@ -1,12 +1,17 @@
-package com.twu.biblioteca;
+package com.twu.biblioteca.database;
 
-import java.lang.reflect.Array;
+import com.twu.biblioteca.*;
+import com.twu.biblioteca.valueobjects.Book;
+import com.twu.biblioteca.valueobjects.Media;
+import com.twu.biblioteca.valueobjects.Movie;
+import com.twu.biblioteca.valueobjects.User;
+
 import java.util.ArrayList;
 
 /**
  * Created by Robert on 29/07/15.
  */
-public class MockDatabase {
+public class MockDatabase implements Database {
 
     private ArrayList<Media> books;
     private ArrayList<Media> movies;
@@ -16,10 +21,6 @@ public class MockDatabase {
         books = createBooks();
         movies = createMovies();
         users = createUsers();
-    }
-
-    public ArrayList<Media> getAllBooks(){
-        return books;
     }
 
     private ArrayList<User> createUsers() {
@@ -75,14 +76,16 @@ public class MockDatabase {
         tempMovies.add(new Movie("Gladiator", 10, "2000", "Ridley Scott", "8"));
 
         return tempMovies;
-
-
     }
 
-    public ArrayList<Media> getBooksOnAvailability(boolean requestedAvailability) {
+    public ArrayList<Media> getAllBooks(){
+        return books;
+    }
+
+    public ArrayList<Media> getAvailableBooks() {
         ArrayList<Media> availableBooks = new ArrayList<Media>();
         for(int i = 0; i < books.size(); i++){
-            if(books.get(i).isAvailable() == requestedAvailability){
+            if(books.get(i).isAvailable() == true){
                 availableBooks.add(books.get(i));
             }
         }
@@ -90,10 +93,10 @@ public class MockDatabase {
         return availableBooks;
     }
 
-    public ArrayList<Media> getMoviesOnAvailability(boolean requestedAvailability) {
+    public ArrayList<Media> getAvailableMovies() {
         ArrayList<Media> availableMovies = new ArrayList<Media>();
         for(int i = 0; i < movies.size(); i++){
-            if(movies.get(i).isAvailable() == requestedAvailability){
+            if(movies.get(i).isAvailable() == true){
                 availableMovies.add(movies.get(i));
             }
         }

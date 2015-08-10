@@ -1,6 +1,8 @@
 package com.twu.biblioteca;
 
 import com.twu.biblioteca.IOwrappers.TerminalIOWrapper;
+import com.twu.biblioteca.database.DatabaseHandler;
+import com.twu.biblioteca.formatting.TerminalIOFormatter;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,16 +17,19 @@ public class TerminalIOWrapperTest {
 
     private Library library;
     private TerminalIOWrapper terminalIOWrapper;
+    private TerminalIOFormatter terminalIOFormatter;
 
     @Before
     public void setUp(){
         library = new Library();
         terminalIOWrapper = new TerminalIOWrapper(library);
+        terminalIOFormatter = new TerminalIOFormatter();
     }
 
     @After
     public void tearDown(){
         library = null;
+        DatabaseHandler.destroyInstance();
     }
 
     @Test
@@ -41,7 +46,7 @@ public class TerminalIOWrapperTest {
     @Test
     public void listBooksTest(){
         try {
-            assertEquals(library.listBooks(), terminalIOWrapper.runCommand(TerminalIOWrapper.MENU_OPTION_LIST_BOOKS));
+            assertEquals(terminalIOFormatter.formatListOfBooks(library.listBooks()), terminalIOWrapper.runCommand(TerminalIOWrapper.MENU_OPTION_LIST_BOOKS));
         } catch (TerminalIOWrapper.UserInducedQuitException e) {
             fail();
         } catch (TerminalIOWrapper.InvalidMenuOptionException e) {
@@ -52,7 +57,7 @@ public class TerminalIOWrapperTest {
     @Test
     public void listMoviesTest(){
         try {
-            assertEquals(library.listMovies(), terminalIOWrapper.runCommand(TerminalIOWrapper.MENU_OPTION_LIST_MOVIES));
+            assertEquals(terminalIOFormatter.formatListOfMovies(library.listMovies()), terminalIOWrapper.runCommand(TerminalIOWrapper.MENU_OPTION_LIST_MOVIES));
         } catch (TerminalIOWrapper.UserInducedQuitException e) {
             e.printStackTrace();
             fail();
