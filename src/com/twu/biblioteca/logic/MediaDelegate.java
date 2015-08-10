@@ -1,8 +1,7 @@
-package com.twu.biblioteca;
+package com.twu.biblioteca.logic;
 
-import com.twu.biblioteca.database.DatabaseHandler;
+import com.twu.biblioteca.database.MediaHandler;
 import com.twu.biblioteca.exceptions.InvalidMediaIdException;
-import com.twu.biblioteca.exceptions.InvalidMediaTypeException;
 import com.twu.biblioteca.valueobjects.Media;
 
 import java.util.ArrayList;
@@ -10,42 +9,41 @@ import java.util.ArrayList;
 public class MediaDelegate {
     private final static boolean MEDIA_NOT_IN_LIBRARY = false;
     private final static boolean MEDIA_IN_LIBRARY = true;
-    private final Library library;
+    private final MediaHandler mediaHandler = new MediaHandler();
 
 
-    public MediaDelegate(Library library) {
-        this.library = library;
+    public MediaDelegate() {
     }
 
     ArrayList<Media> getAvailableMovies() {
-        return DatabaseHandler.getInstance().getDatabase().getAvailableMovies();
+        return mediaHandler.getAvailableMovies();
 
     }
 
     ArrayList<Media> getAvailableBooks() {
-        return DatabaseHandler.getInstance().getDatabase().getAvailableBooks();
+        return mediaHandler.getAvailableBooks();
 
     }
 
-    public boolean returnBook(String mediaId) throws InvalidMediaTypeException, InvalidMediaIdException {
+    public boolean returnBook(String mediaId) throws InvalidMediaIdException {
         return changeBookStatus(mediaId, MediaDelegate.MEDIA_NOT_IN_LIBRARY, MediaDelegate.MEDIA_IN_LIBRARY);
     }
 
-    public boolean returnMovie(String mediaId) throws InvalidMediaTypeException, InvalidMediaIdException {
+    public boolean returnMovie(String mediaId) throws InvalidMediaIdException {
         return changeMovieStatus(mediaId, MediaDelegate.MEDIA_NOT_IN_LIBRARY, MediaDelegate.MEDIA_IN_LIBRARY);
     }
 
-    public boolean loanBook(String mediaId) throws InvalidMediaTypeException, InvalidMediaIdException {
+    public boolean loanBook(String mediaId) throws InvalidMediaIdException {
         return changeBookStatus(mediaId, MediaDelegate.MEDIA_IN_LIBRARY, MediaDelegate.MEDIA_NOT_IN_LIBRARY);
     }
 
-    public boolean loanMovie(String mediaId) throws InvalidMediaTypeException, InvalidMediaIdException {
+    public boolean loanMovie(String mediaId) throws InvalidMediaIdException {
         return changeMovieStatus(mediaId, MediaDelegate.MEDIA_IN_LIBRARY, MediaDelegate.MEDIA_NOT_IN_LIBRARY);
     }
 
-    private boolean changeBookStatus(String mediaIdString, boolean statusFrom, boolean statusTo) throws InvalidMediaIdException, InvalidMediaTypeException {
+    private boolean changeBookStatus(String mediaIdString, boolean statusFrom, boolean statusTo) throws InvalidMediaIdException {
         int mediaId = convertMediaIdFromStringToInt(mediaIdString);
-        Media media = DatabaseHandler.getInstance().getDatabase().getMediaById(mediaId, "Book");
+        Media media = mediaHandler.getMediaById(mediaId, "Book");
         if (media != null && media.isAvailable() == statusFrom) {
             media.setAvailability(statusTo);
             return true;
@@ -53,9 +51,9 @@ public class MediaDelegate {
         return false;
     }
 
-    private boolean changeMovieStatus(String mediaIdString, boolean statusFrom, boolean statusTo) throws InvalidMediaIdException, InvalidMediaTypeException {
+    private boolean changeMovieStatus(String mediaIdString, boolean statusFrom, boolean statusTo) throws InvalidMediaIdException {
         int mediaId = convertMediaIdFromStringToInt(mediaIdString);
-        Media media = DatabaseHandler.getInstance().getDatabase().getMediaById(mediaId, "Movie");
+        Media media = mediaHandler.getMediaById(mediaId, "Movie");
         if (media != null && media.isAvailable() == statusFrom) {
             media.setAvailability(statusTo);
             return true;

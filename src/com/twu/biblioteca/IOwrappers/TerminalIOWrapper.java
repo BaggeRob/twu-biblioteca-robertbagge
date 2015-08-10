@@ -1,8 +1,7 @@
 package com.twu.biblioteca.IOwrappers;
 
-import com.twu.biblioteca.Library;
+import com.twu.biblioteca.logic.Library;
 import com.twu.biblioteca.exceptions.InvalidMediaIdException;
-import com.twu.biblioteca.exceptions.InvalidMediaTypeException;
 import com.twu.biblioteca.formatting.TerminalIOFormatter;
 
 import java.io.BufferedReader;
@@ -75,7 +74,7 @@ public class TerminalIOWrapper {
     }
 
     private String printUserInformation() throws InvalidMenuOptionException {
-        if(validateUserSession()) {
+        if(library.onGoingUserSession()) {
             return formatter.formatUserInformation(library.getCurrentUser());
         }else {
             throw new InvalidMenuOptionException();
@@ -97,7 +96,7 @@ public class TerminalIOWrapper {
 
     public String listMenuOptions(){
         String menu = "Choose one of the following menu options: \n";
-        if(!validateUserSession()){
+        if(!library.onGoingUserSession()){
             menu += menuItemsForNotLoggedInUsers();
         }else{
             menu += menuItemsForLoggedInUsers();
@@ -134,7 +133,7 @@ public class TerminalIOWrapper {
 
     private String checkoutMedia(String command) throws InvalidMenuOptionException{
         try {
-            if(!validateUserSession()){
+            if(!library.onGoingUserSession()){
                 throw new InvalidMenuOptionException();
             }
             String[] commandArgs = command.split(" ");
@@ -148,12 +147,10 @@ public class TerminalIOWrapper {
             throw new InvalidMenuOptionException();
         } catch (InvalidMediaIdException e) {
             throw new InvalidMenuOptionException();
-        } catch (InvalidMediaTypeException e) {
-            throw new InvalidMenuOptionException();
         }
     }
 
-    private String loanMovie(String mediaId) throws InvalidMediaTypeException, InvalidMediaIdException {
+    private String loanMovie(String mediaId) throws InvalidMediaIdException {
         if(library.loanMovie(mediaId)){
             return TerminalIOWrapper.SUCCESSFUL_CHECKOUT_MESSAGE_MOVIE;
         }else{
@@ -161,7 +158,7 @@ public class TerminalIOWrapper {
         }
     }
 
-    private String loanBook(String mediaId) throws InvalidMediaIdException, InvalidMediaTypeException {
+    private String loanBook(String mediaId) throws InvalidMediaIdException {
         if(library.loanBook(mediaId)){
             return TerminalIOWrapper.SUCCESSFUL_CHECKOUT_MESSAGE_BOOK;
         }else{
@@ -171,7 +168,7 @@ public class TerminalIOWrapper {
 
     private String returnMedia(String command) throws InvalidMenuOptionException {
         try {
-            if(!validateUserSession()){
+            if(!library.onGoingUserSession()){
                 throw new InvalidMenuOptionException();
             }
             String[] commandArgs = command.split(" ");
@@ -185,12 +182,10 @@ public class TerminalIOWrapper {
             throw new InvalidMenuOptionException();
         } catch (InvalidMediaIdException e) {
             throw new InvalidMenuOptionException();
-        } catch (InvalidMediaTypeException e) {
-            throw new InvalidMenuOptionException();
         }
     }
 
-    private String returnMovie(String mediaId) throws InvalidMediaTypeException, InvalidMediaIdException {
+    private String returnMovie(String mediaId) throws InvalidMediaIdException {
         if(library.returnMovie(mediaId)){
             return TerminalIOWrapper.SUCCESSFUL_RETURN_MESSAGE_MOVIE;
         }else{
@@ -198,16 +193,12 @@ public class TerminalIOWrapper {
         }
     }
 
-    private String returnBook(String mediaId) throws InvalidMediaIdException, InvalidMediaTypeException {
+    private String returnBook(String mediaId) throws InvalidMediaIdException {
         if(library.returnBook(mediaId)){
             return TerminalIOWrapper.SUCCESSFUL_RETURN_MESSAGE_BOOK;
         }else{
             return TerminalIOWrapper.UNSUCCESFUL_RETURN_MESSAGE_BOOK;
         }
-    }
-
-    private boolean validateUserSession() {
-        return library.onGoingUserSession();
     }
 
     public void run(){

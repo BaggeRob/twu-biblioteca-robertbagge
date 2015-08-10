@@ -6,7 +6,7 @@ package com.twu.biblioteca;
 
 
 import com.twu.biblioteca.exceptions.InvalidMediaIdException;
-import com.twu.biblioteca.exceptions.InvalidMediaTypeException;
+import com.twu.biblioteca.logic.Library;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -38,8 +38,6 @@ public class LibraryTest {
             assertFalse(library.loanBook("10000"));
         } catch (InvalidMediaIdException e) {
             fail();
-        } catch (InvalidMediaTypeException e) {
-            fail();
         }
     }
 
@@ -50,8 +48,6 @@ public class LibraryTest {
             assertTrue(library.loanBook("5"));
             assertTrue(library.returnBook("5"));
         }catch (InvalidMediaIdException e) {
-            fail();
-        } catch (InvalidMediaTypeException e) {
             fail();
         }
     }

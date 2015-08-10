@@ -1,7 +1,6 @@
-package com.twu.biblioteca;
+package com.twu.biblioteca.logic;
 
 import com.twu.biblioteca.exceptions.InvalidMediaIdException;
-import com.twu.biblioteca.exceptions.InvalidMediaTypeException;
 import com.twu.biblioteca.valueobjects.Media;
 import com.twu.biblioteca.valueobjects.User;
 
@@ -14,8 +13,8 @@ public class Library {
 
     public final static String MEDIA_TYPE_BOOK = "Book";
     public final static String MEDIA_TYPE_MOVIE = "Movie";
-    private final MediaDelegate mediaDelegate = new MediaDelegate(this);
-    private final UserDelegate userDelegate = new UserDelegate(this);
+    private final MediaDelegate mediaDelegate = new MediaDelegate();
+    private final UserDelegate userDelegate = new UserDelegate();
 
     public ArrayList<Media> listBooks(){
         return mediaDelegate.getAvailableBooks();
@@ -25,19 +24,19 @@ public class Library {
         return mediaDelegate.getAvailableMovies();
     }
 
-    public boolean returnBook(String mediaId) throws InvalidMediaTypeException, InvalidMediaIdException {
+    public boolean returnBook(String mediaId) throws InvalidMediaIdException {
         return mediaDelegate.returnBook(mediaId);
     }
 
-    public boolean returnMovie(String mediaId) throws InvalidMediaTypeException, InvalidMediaIdException {
+    public boolean returnMovie(String mediaId) throws InvalidMediaIdException {
         return mediaDelegate.returnMovie(mediaId);
     }
 
-    public boolean loanBook(String mediaId) throws InvalidMediaTypeException, InvalidMediaIdException {
+    public boolean loanBook(String mediaId) throws InvalidMediaIdException {
         return mediaDelegate.loanBook(mediaId);
     }
 
-    public boolean loanMovie(String mediaId) throws InvalidMediaTypeException, InvalidMediaIdException {
+    public boolean loanMovie(String mediaId) throws InvalidMediaIdException {
         return mediaDelegate.loanMovie(mediaId);
     }
 

@@ -1,6 +1,5 @@
 package com.twu.biblioteca.database;
 
-import com.twu.biblioteca.*;
 import com.twu.biblioteca.valueobjects.Book;
 import com.twu.biblioteca.valueobjects.Media;
 import com.twu.biblioteca.valueobjects.Movie;
@@ -12,7 +11,7 @@ import java.util.ArrayList;
  * Created by Robert on 29/07/15.
  */
 public class MockDatabase implements Database {
-
+    private final MediaHandler mediaHandler = new MediaHandler();
     private ArrayList<Media> books;
     private ArrayList<Media> movies;
     private ArrayList<User> users;
@@ -82,65 +81,13 @@ public class MockDatabase implements Database {
         return books;
     }
 
-    public ArrayList<Media> getAvailableBooks() {
-        ArrayList<Media> availableBooks = new ArrayList<Media>();
-        for(int i = 0; i < books.size(); i++){
-            if(books.get(i).isAvailable() == true){
-                availableBooks.add(books.get(i));
-            }
-        }
-
-        return availableBooks;
+    @Override
+    public ArrayList<Media> getAllMovies() {
+        return movies;
     }
 
-    public ArrayList<Media> getAvailableMovies() {
-        ArrayList<Media> availableMovies = new ArrayList<Media>();
-        for(int i = 0; i < movies.size(); i++){
-            if(movies.get(i).isAvailable() == true){
-                availableMovies.add(movies.get(i));
-            }
-        }
-
-        return availableMovies;
-    }
-
-
-    private Media getMediaByIdWithList(int mediaId, ArrayList<Media> mediaList){
-        for(Media media: mediaList){
-            if(media.getId() == mediaId){
-                return media;
-            }
-        }
-        return null;
-    }
-
-    public Media getMediaById(int mediaId, String media_type) {
-        if(media_type.equals(Library.MEDIA_TYPE_MOVIE)){
-            return this.getMediaByIdWithList(mediaId, movies);
-        }else if(media_type.equals(Library.MEDIA_TYPE_BOOK)){
-            return this.getMediaByIdWithList(mediaId, books);
-        }else{
-            return null;
-        }
-    }
-
-
-
-    public Media getBookById(int bookId) {
-        for(Media book: books){
-            if(book.getId() == bookId){
-                return book;
-            }
-        }
-        return null;
-    }
-
-    public User findUser(String libraryNumber) {
-        for(User user: users){
-            if(user.equals(new User(libraryNumber, "...", "name", "email", "phone"))){
-                return user;
-            }
-        }
-        return null;
+    @Override
+    public ArrayList<User> getAllUsers() {
+        return users;
     }
 }

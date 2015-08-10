@@ -1,7 +1,7 @@
 package com.twu.biblioteca.runnables;
 
 import com.twu.biblioteca.IOwrappers.TerminalIOWrapper;
-import com.twu.biblioteca.Library;
+import com.twu.biblioteca.logic.Library;
 
 public class BibliotecaApp {
 

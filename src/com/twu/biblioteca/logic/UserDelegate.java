@@ -1,18 +1,15 @@
-package com.twu.biblioteca;
+package com.twu.biblioteca.logic;
 
 import com.twu.biblioteca.database.DatabaseHandler;
+import com.twu.biblioteca.database.UserHandler;
 import com.twu.biblioteca.valueobjects.User;
 
 public class UserDelegate {
-    private final Library library;
+    private final UserHandler userHandler = new UserHandler();
     User currentUser = null;
 
-    public UserDelegate(Library library) {
-        this.library = library;
-    }
-
     public boolean userLogin(String libraryNumber, String password) {
-        User user = DatabaseHandler.getInstance().getDatabase().findUser(libraryNumber);
+        User user = userHandler.findUser(libraryNumber);
         if (user != null && user.validatePassword(password)) {
             startSession(user);
             return true;
@@ -26,10 +23,6 @@ public class UserDelegate {
 
     public boolean onGoingUserSession() {
         return currentUser != null;
-    }
-
-    public String[] getCurrentUserInformation() {
-        return new String[]{currentUser.getName(), currentUser.getEmail(), currentUser.getPhoneNumber()};
     }
 
     public User getCurrentUser() {
