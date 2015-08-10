@@ -14,6 +14,7 @@ import java.io.InputStreamReader;
 public class TerminalIOWrapper {
 
 
+    /* Messages */
     public static final String WELCOME_MESSAGE = "Welcome to Biblioteca";
     public static final String VALID_OPTION_MESSAGE = "Select a valid option!";
     public static final String QUIT_MESSAGE = "Closing application";
@@ -21,15 +22,14 @@ public class TerminalIOWrapper {
     public static final String UNSUCCESFUL_CHECKOUT_MESSAGE_BOOK = "That book is not available.";
     public static final String SUCCESSFUL_RETURN_MESSAGE_BOOK = "Thank you for returning the book.";
     public static final String UNSUCCESFUL_RETURN_MESSAGE_BOOK = "That is not a valid book to return.";
-
     public static final String SUCCESSFUL_CHECKOUT_MESSAGE_MOVIE = "Thank you! Enjoy the movie";
     public static final String UNSUCCESFUL_CHECKOUT_MESSAGE_MOVIE = "That movie is not available.";
     public static final String SUCCESSFUL_RETURN_MESSAGE_MOVIE = "Thank you for returning the movie.";
     public static final String UNSUCCESFUL_RETURN_MESSAGE_MOVIE = "That is not a valid movie to return.";
-
     public static final String SUCCESSFUL_LOGIN_MESSAGE = "You are now logged in.";
     public static final String UNSUCCESFUL_LOGIN_MESSAGE = "Wrong user credentials.";
 
+    /* Menu Options */
     public final static String LIST_TERMINAL_MENU_OPTIONS = "List menu options";
     public final static String MENU_OPTION_LIST_BOOKS = "List Books";
     public final static String MENU_OPTION_LIST_MOVIES = "List Movies";

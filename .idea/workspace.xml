@@ -2,24 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ab248da2-35ef-4edb-9290-25702b5ed9c3" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/biblioteca/com/twu/biblioteca/database/DatabaseHandler.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/biblioteca/com/twu/biblioteca/database/MediaHandler.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/biblioteca/com/twu/biblioteca/database/UserHandler.class" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/twu/biblioteca/database/DatabaseHandler.java" afterPath="$PROJECT_DIR$/src/com/twu/biblioteca/databasehandlers/DatabaseHandler.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/twu/biblioteca/database/MediaHandler.java" afterPath="$PROJECT_DIR$/src/com/twu/biblioteca/databasehandlers/MediaHandler.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/twu/biblioteca/database/UserHandler.java" afterPath="$PROJECT_DIR$/src/com/twu/biblioteca/databasehandlers/UserHandler.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/test/com/twu/biblioteca/BookTests.java" afterPath="$PROJECT_DIR$/test/com/twu/biblioteca/BookTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/biblioteca/com/twu/biblioteca/logic/MediaDelegate.class" afterPath="$PROJECT_DIR$/out/production/biblioteca/com/twu/biblioteca/logic/MediaDelegate.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/biblioteca/com/twu/biblioteca/database/MockDatabase.class" afterPath="$PROJECT_DIR$/out/production/biblioteca/com/twu/biblioteca/database/MockDatabase.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/biblioteca/com/twu/biblioteca/formatting/TerminalIOFormatter.class" afterPath="$PROJECT_DIR$/out/production/biblioteca/com/twu/biblioteca/formatting/TerminalIOFormatter.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/test/biblioteca/com/twu/biblioteca/TerminalIOWrapperTest.class" afterPath="$PROJECT_DIR$/out/test/biblioteca/com/twu/biblioteca/TerminalIOWrapperTest.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/biblioteca/com/twu/biblioteca/logic/UserDelegate.class" afterPath="$PROJECT_DIR$/out/production/biblioteca/com/twu/biblioteca/logic/UserDelegate.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/twu/biblioteca/logic/Library.java" afterPath="$PROJECT_DIR$/src/com/twu/biblioteca/logic/Library.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/twu/biblioteca/logic/MediaDelegate.java" afterPath="$PROJECT_DIR$/src/com/twu/biblioteca/logic/MediaDelegate.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/twu/biblioteca/database/MockDatabase.java" afterPath="$PROJECT_DIR$/src/com/twu/biblioteca/database/MockDatabase.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/com/twu/biblioteca/TerminalIOWrapperTest.java" afterPath="$PROJECT_DIR$/test/com/twu/biblioteca/TerminalIOWrapperTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/twu/biblioteca/logic/UserDelegate.java" afterPath="$PROJECT_DIR$/src/com/twu/biblioteca/logic/UserDelegate.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/twu/biblioteca/IOwrappers/TerminalIOWrapper.java" afterPath="$PROJECT_DIR$/src/com/twu/biblioteca/IOwrappers/TerminalIOWrapper.java" />
     </list>
     <ignored path="biblioteca.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -71,8 +54,8 @@
       <file leaf-file-name="TerminalIOWrapper.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/twu/biblioteca/IOwrappers/TerminalIOWrapper.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.3617811">
-              <caret line="13" column="31" selection-start-line="13" selection-start-column="31" selection-end-line="13" selection-end-column="31" />
+            <state vertical-scroll-proportion="0.2504638">
+              <caret line="31" column="19" selection-start-line="31" selection-start-column="19" selection-end-line="31" selection-end-column="19" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -214,10 +197,10 @@
         <option value="$PROJECT_DIR$/src/com/twu/biblioteca/Library.java" />
         <option value="$PROJECT_DIR$/src/com/twu/biblioteca/UserDelegate.java" />
         <option value="$PROJECT_DIR$/src/com/twu/biblioteca/logic/MediaDelegate.java" />
-        <option value="$PROJECT_DIR$/src/com/twu/biblioteca/IOwrappers/TerminalIOWrapper.java" />
         <option value="$PROJECT_DIR$/test/com/twu/biblioteca/LibraryTest.java" />
         <option value="$PROJECT_DIR$/src/com/twu/biblioteca/logic/Library.java" />
         <option value="$PROJECT_DIR$/src/com/twu/biblioteca/databasehandlers/DatabaseHandler.java" />
+        <option value="$PROJECT_DIR$/src/com/twu/biblioteca/IOwrappers/TerminalIOWrapper.java" />
       </list>
     </option>
   </component>
@@ -864,12 +847,12 @@
       <updated>1438168697701</updated>
       <workItem from="1438762063158" duration="15208000" />
       <workItem from="1438845993749" duration="34414000" />
-      <workItem from="1439197541595" duration="17191000" />
+      <workItem from="1439197541595" duration="17356000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="66813000" />
+    <option name="totallyTimeSpent" value="66978000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1418,8 +1401,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/twu/biblioteca/IOwrappers/TerminalIOWrapper.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3617811">
-          <caret line="13" column="31" selection-start-line="13" selection-start-column="31" selection-end-line="13" selection-end-column="31" />
+        <state vertical-scroll-proportion="0.2504638">
+          <caret line="31" column="19" selection-start-line="31" selection-start-column="19" selection-end-line="31" selection-end-column="19" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
