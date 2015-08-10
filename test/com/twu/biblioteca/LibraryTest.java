@@ -5,6 +5,8 @@ package com.twu.biblioteca;
  */
 
 
+import com.twu.biblioteca.exceptions.InvalidMediaIdException;
+import com.twu.biblioteca.exceptions.InvalidMediaTypeException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -34,16 +36,16 @@ public class LibraryTest {
     public void testLoanBook(){
         try {
             assertTrue(library.listBooks().contains("Don Quixote"));
-            assertTrue(library.loanMedia("3", Library.MEDIA_TYPE_BOOK));
+            assertTrue(library.loanBook("3"));
             assertFalse(library.listBooks().contains("Don Quixote"));
-            assertTrue(library.loanMedia("9", Library.MEDIA_TYPE_BOOK));
+            assertTrue(library.loanBook("9"));
             assertFalse(library.listBooks().contains("The Divine Comedy"));
-            assertFalse(library.loanMedia("9", Library.MEDIA_TYPE_BOOK));
+            assertFalse(library.loanBook("9"));
 
-            assertFalse(library.loanMedia("10000", Library.MEDIA_TYPE_BOOK));
-        } catch (Library.InvalidMediaIdException e) {
+            assertFalse(library.loanBook("10000"));
+        } catch (InvalidMediaIdException e) {
             fail();
-        } catch (Library.InvalidMediaTypeException e) {
+        } catch (InvalidMediaTypeException e) {
             fail();
         }
     }
@@ -52,25 +54,21 @@ public class LibraryTest {
     public void testReturnBook(){
         try {
             assertTrue(library.listBooks().contains("Hamlet"));
-            assertFalse(library.returnMedia("5", Library.MEDIA_TYPE_BOOK));
-            assertTrue(library.loanMedia("5", Library.MEDIA_TYPE_BOOK));
+            assertFalse(library.returnBook("5"));
+            assertTrue(library.loanBook("5"));
             assertFalse(library.listBooks().contains("Hamlet"));
-            assertTrue(library.returnMedia("5", Library.MEDIA_TYPE_BOOK));
+            assertTrue(library.returnBook("5"));
             assertTrue(library.listBooks().contains("Hamlet"));
-        }catch (Library.InvalidMediaIdException e) {
+        }catch (InvalidMediaIdException e) {
             fail();
-        } catch (Library.InvalidMediaTypeException e) {
+        } catch (InvalidMediaTypeException e) {
             fail();
         }
     }
 
     @Test
     public void testListAllBooksNotNull(){
-        try {
-            assertNotNull(library.listBooks());
-        } catch (Library.InvalidMediaTypeException e) {
-            fail();
-        }
+        assertNotNull(library.listBooks());
     }
 
     @Test

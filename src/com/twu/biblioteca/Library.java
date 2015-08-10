@@ -1,5 +1,8 @@
 package com.twu.biblioteca;
 
+import com.twu.biblioteca.exceptions.InvalidMediaIdException;
+import com.twu.biblioteca.exceptions.InvalidMediaTypeException;
+
 import java.util.ArrayList;
 
 /**
@@ -7,11 +10,9 @@ import java.util.ArrayList;
  */
 public class Library {
 
-    private final static boolean MEDIA_IN_LIBRARY = true;
-    private final static boolean MEDIA_NOT_IN_LIBRARY = false;
-
     public final static String MEDIA_TYPE_BOOK = "Book";
     public final static String MEDIA_TYPE_MOVIE = "Movie";
+    private final MediaHandler mediaHandler = new MediaHandler(this);
 
     private User currentUser = null;
     private MockDatabase database;
@@ -24,69 +25,47 @@ public class Library {
         return database.getAllBooks().size();
     }
 
-    public String listBooks() throws InvalidMediaTypeException {
+    public String listBooks(){
         String headlineBooks = String.format(Book.BOOK_FORMAT_FIELDS, "Book Id", "Book Title", "Author", "Year Published");
-        return headlineBooks + listMedia(Library.MEDIA_TYPE_BOOK);
+        return headlineBooks + listMedia(mediaHandler.getAvailableBooks());
     }
 
-    public String listMovies() throws InvalidMediaTypeException {
+    public String listMovies() {
         String headlineMovies = String.format(Movie.MOVIE_FORMAT_FIELDS, "Movie Id", "Movie Title", "Director", "Year", "Rating");
-        return headlineMovies + listMedia(Library.MEDIA_TYPE_MOVIE);
+        return headlineMovies + listMedia(mediaHandler.getAvailableMovies());
     }
 
-    private String listMedia(String mediaType) throws InvalidMediaTypeException {
+    private String listMedia(ArrayList<Media> mediaList) {
         String listOfMedia = "";
-        ArrayList<Media> mediaList = getAvailableMediaForMediaType(mediaType);
         for(Media media: mediaList){
             listOfMedia += media.toString();
         }
         return listOfMedia;
     }
+    private ArrayList<Media> getAvailableMovies() {
 
-    public boolean returnMedia(String mediaId, String mediaType) throws InvalidMediaIdException, InvalidMediaTypeException{
-        return changeMediaStatus(mediaId, mediaType, Library.MEDIA_NOT_IN_LIBRARY, Library.MEDIA_IN_LIBRARY);
+        return mediaHandler.getAvailableMovies();
     }
 
-    public boolean loanMedia(String mediaId, String mediaType) throws InvalidMediaIdException, InvalidMediaTypeException{
-        return changeMediaStatus(mediaId, mediaType, Library.MEDIA_IN_LIBRARY, Library.MEDIA_NOT_IN_LIBRARY);
+    private ArrayList<Media> getAvailableBooks() {
+
+        return mediaHandler.getAvailableBooks();
     }
 
-    private boolean changeMediaStatus(String mediaIdString, String mediaType, boolean statusFrom, boolean statusTo) throws InvalidMediaIdException, InvalidMediaTypeException {
-        validateMediaType(mediaType);
-        int mediaId = convertMediaIdFromStringToInt(mediaIdString);
-        Media media = database.getMediaById(mediaId, mediaType);
-        if(media != null && media.isAvailable() == statusFrom){
-            media.setAvailability(statusTo);
-            return true;
-        }
-        return false;
+    public boolean returnBook(String mediaId) throws InvalidMediaTypeException, InvalidMediaIdException {
+        return mediaHandler.returnBook(mediaId);
     }
 
-    private void validateMediaType(String mediaType) throws InvalidMediaTypeException{
-        if(!mediaType.equals(Library.MEDIA_TYPE_MOVIE) && !mediaType.equals(Library.MEDIA_TYPE_BOOK)){
-            throw new InvalidMediaTypeException();
-        }
-
+    public boolean returnMovie(String mediaId) throws InvalidMediaTypeException, InvalidMediaIdException {
+        return mediaHandler.returnMovie(mediaId);
     }
 
-    private int convertMediaIdFromStringToInt(String mediaIdString) throws InvalidMediaIdException {
-        try {
-            int bookId = Integer.parseInt(mediaIdString);
-            return bookId;
-        } catch (NumberFormatException e) {
-            throw new InvalidMediaIdException();
-        }
+    public boolean loanBook(String mediaId) throws InvalidMediaTypeException, InvalidMediaIdException {
+        return mediaHandler.loanBook(mediaId);
     }
 
-    public ArrayList<Media> getAvailableMediaForMediaType(String mediaType) throws InvalidMediaTypeException {
-        validateMediaType(mediaType);
-        if(mediaType.equals(Library.MEDIA_TYPE_MOVIE)){
-            return database.getMoviesOnAvailability(true);
-        }else if(mediaType.equals(Library.MEDIA_TYPE_BOOK)){
-            return  database.getBooksOnAvailability(true);
-        }else{
-            return new ArrayList<Media>();
-        }
+    public boolean loanMovie(String mediaId) throws InvalidMediaTypeException, InvalidMediaIdException {
+        return mediaHandler.loanMovie(mediaId);
     }
 
     public boolean userLogin(String libraryNumber, String password) {
@@ -110,11 +89,7 @@ public class Library {
         return new String[]{currentUser.getName(), currentUser.getEmail(), currentUser.getPhoneNumber()};
     }
 
-    public class InvalidMediaIdException extends Exception{
-
-    }
-
-    public class InvalidMediaTypeException extends Exception{
-
+    public MockDatabase getDatabase() {
+        return database;
     }
 }

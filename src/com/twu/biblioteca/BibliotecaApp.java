@@ -1,5 +1,7 @@
 package com.twu.biblioteca;
 
+import com.twu.biblioteca.IOwrappers.TerminalIOWrapper;
+
 public class BibliotecaApp {
 
     public static void main(String[] args) {

@@ -1,4 +1,8 @@
-package com.twu.biblioteca;
+package com.twu.biblioteca.IOwrappers;
+
+import com.twu.biblioteca.Library;
+import com.twu.biblioteca.exceptions.InvalidMediaIdException;
+import com.twu.biblioteca.exceptions.InvalidMediaTypeException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,10 +17,16 @@ public class TerminalIOWrapper {
     public static final String WELCOME_MESSAGE = "Welcome to Biblioteca";
     public static final String VALID_OPTION_MESSAGE = "Select a valid option!";
     public static final String QUIT_MESSAGE = "Closing application";
-    public static final String SUCCESSFUL_CHECKOUT_MESSAGE = "Thank you! Enjoy the book";
-    public static final String UNSUCCESFUL_CHECKOUT_MESSAGE = "That book is not available.";
-    public static final String SUCCESSFUL_RETURN_MESSAGE = "Thank you for returning the book.";
-    public static final String UNSUCCESFUL_RETURN_MESSAGE = "That is not a valid book to return.";
+    public static final String SUCCESSFUL_CHECKOUT_MESSAGE_BOOK = "Thank you! Enjoy the book";
+    public static final String UNSUCCESFUL_CHECKOUT_MESSAGE_BOOK = "That book is not available.";
+    public static final String SUCCESSFUL_RETURN_MESSAGE_BOOK = "Thank you for returning the book.";
+    public static final String UNSUCCESFUL_RETURN_MESSAGE_BOOK = "That is not a valid book to return.";
+
+    public static final String SUCCESSFUL_CHECKOUT_MESSAGE_MOVIE = "Thank you! Enjoy the movie";
+    public static final String UNSUCCESFUL_CHECKOUT_MESSAGE_MOVIE = "That movie is not available.";
+    public static final String SUCCESSFUL_RETURN_MESSAGE_MOVIE = "Thank you for returning the movie.";
+    public static final String UNSUCCESFUL_RETURN_MESSAGE_MOVIE = "That is not a valid movie to return.";
+
     public static final String SUCCESSFUL_LOGIN_MESSAGE = "You are now logged in.";
     public static final String UNSUCCESFUL_LOGIN_MESSAGE = "Wrong user credentials.";
 
@@ -37,24 +47,27 @@ public class TerminalIOWrapper {
     }
 
     public String runCommand(String command) throws UserInducedQuitException, InvalidMenuOptionException {
+        String commandAction = command.split(" ")[0];
         if(command.equals(TerminalIOWrapper.LIST_TERMINAL_MENU_OPTIONS)){
             return this.listMenuOptions();
         }else if(command.equals(TerminalIOWrapper.MENU_OPTION_LIST_BOOKS)){
             return listBooks();
         }else if(command.equals(TerminalIOWrapper.MENU_OPTION_QUIT)){
             throw new UserInducedQuitException();
-        }else if(command.split(" ")[0].equals(TerminalIOWrapper.MENU_OPTION_CHECKOUT)){
-            return checkoutMedia(command);
-        }else if(command.split(" ")[0].equals(TerminalIOWrapper.MENU_OPTION_RETURN)){
-            return returnMedia(command);
-        }else if(command.equals(TerminalIOWrapper.MENU_OPTION_LIST_MOVIES)){
-            return listMovies();
-        }else if(command.split(" ")[0].equals(TerminalIOWrapper.MENU_OPTION_LOGIN)){
-            return userLogin(command);
-        }else if(command.equals(TerminalIOWrapper.MENU_OPTION_SHOW_USER_INFORMATION)){
-            return printUserInformation();
-        }else{
-            throw new InvalidMenuOptionException();
+        }else {
+            if(commandAction.equals(TerminalIOWrapper.MENU_OPTION_CHECKOUT)){
+                return checkoutMedia(command);
+            }else if(commandAction.equals(TerminalIOWrapper.MENU_OPTION_RETURN)){
+                return returnMedia(command);
+            }else if(command.equals(TerminalIOWrapper.MENU_OPTION_LIST_MOVIES)){
+                return listMovies();
+            }else if(commandAction.equals(TerminalIOWrapper.MENU_OPTION_LOGIN)){
+                return userLogin(command);
+            }else if(command.equals(TerminalIOWrapper.MENU_OPTION_SHOW_USER_INFORMATION)){
+                return printUserInformation();
+            }else{
+                throw new InvalidMenuOptionException();
+            }
         }
     }
 
@@ -117,19 +130,11 @@ public class TerminalIOWrapper {
     }
 
     private String listMovies() throws InvalidMenuOptionException {
-        try {
-            return library.listMovies();
-        } catch (Library.InvalidMediaTypeException e) {
-            throw new InvalidMenuOptionException();
-        }
+        return library.listMovies();
     }
 
     private String listBooks() throws InvalidMenuOptionException{
-        try {
-            return library.listBooks();
-        } catch (Library.InvalidMediaTypeException e) {
-            throw new InvalidMenuOptionException();
-        }
+        return library.listBooks();
     }
 
     private String checkoutMedia(String command) throws InvalidMenuOptionException{
@@ -140,20 +145,33 @@ public class TerminalIOWrapper {
             String[] commandArgs = command.split(" ");
             String media_type = commandArgs[1];
             String mediaId = commandArgs[2];
-            if(library.loanMedia(mediaId, media_type)){
-                return TerminalIOWrapper.SUCCESSFUL_CHECKOUT_MESSAGE;
-            }else{
-                return TerminalIOWrapper.UNSUCCESFUL_CHECKOUT_MESSAGE;
+            if(media_type.equals("Book")){
+                return loanBook(mediaId);
+            }else if(media_type.equals("Movie")){
+                return loanMovie(mediaId);
             }
-        } catch (Library.InvalidMediaIdException e) {
             throw new InvalidMenuOptionException();
-        } catch (Library.InvalidMediaTypeException e) {
+        } catch (InvalidMediaIdException e) {
+            throw new InvalidMenuOptionException();
+        } catch (InvalidMediaTypeException e) {
             throw new InvalidMenuOptionException();
         }
     }
 
-    private boolean validateUserSession() {
-        return library.onGoingUserSession();
+    private String loanMovie(String mediaId) throws InvalidMediaTypeException, InvalidMediaIdException {
+        if(library.loanMovie(mediaId)){
+            return TerminalIOWrapper.SUCCESSFUL_CHECKOUT_MESSAGE_MOVIE;
+        }else{
+            return TerminalIOWrapper.UNSUCCESFUL_CHECKOUT_MESSAGE_MOVIE;
+        }
+    }
+
+    private String loanBook(String mediaId) throws InvalidMediaIdException, InvalidMediaTypeException {
+        if(library.loanBook(mediaId)){
+            return TerminalIOWrapper.SUCCESSFUL_CHECKOUT_MESSAGE_BOOK;
+        }else{
+            return TerminalIOWrapper.UNSUCCESFUL_CHECKOUT_MESSAGE_BOOK;
+        }
     }
 
     private String returnMedia(String command) throws InvalidMenuOptionException {
@@ -164,16 +182,37 @@ public class TerminalIOWrapper {
             String[] commandArgs = command.split(" ");
             String media_type = commandArgs[1];
             String mediaId = commandArgs[2];
-            if(library.returnMedia(mediaId, media_type)){
-                return TerminalIOWrapper.SUCCESSFUL_RETURN_MESSAGE;
-            }else{
-                return TerminalIOWrapper.UNSUCCESFUL_RETURN_MESSAGE;
+            if(media_type.equals("Book")){
+                return returnBook(mediaId);
+            }else if(media_type.equals("Movie")){
+                return returnMovie(mediaId);
             }
-        } catch (Library.InvalidMediaIdException e) {
             throw new InvalidMenuOptionException();
-        } catch (Library.InvalidMediaTypeException e) {
+        } catch (InvalidMediaIdException e) {
+            throw new InvalidMenuOptionException();
+        } catch (InvalidMediaTypeException e) {
             throw new InvalidMenuOptionException();
         }
+    }
+
+    private String returnMovie(String mediaId) throws InvalidMediaTypeException, InvalidMediaIdException {
+        if(library.returnMovie(mediaId)){
+            return TerminalIOWrapper.SUCCESSFUL_RETURN_MESSAGE_MOVIE;
+        }else{
+            return TerminalIOWrapper.UNSUCCESFUL_RETURN_MESSAGE_MOVIE;
+        }
+    }
+
+    private String returnBook(String mediaId) throws InvalidMediaIdException, InvalidMediaTypeException {
+        if(library.returnBook(mediaId)){
+            return TerminalIOWrapper.SUCCESSFUL_RETURN_MESSAGE_BOOK;
+        }else{
+            return TerminalIOWrapper.UNSUCCESFUL_RETURN_MESSAGE_BOOK;
+        }
+    }
+
+    private boolean validateUserSession() {
+        return library.onGoingUserSession();
     }
 
     public void run(){
